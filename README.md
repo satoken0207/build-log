@@ -11,12 +11,13 @@ python -m http.server 8080
 # http://localhost:8080 を開く
 ```
 
-## 公開（GitHub Pages / 無料）
+## 公開（Cloudflare Pages / 無料）
 
-1. GitHubで空のリポジトリを作成する（Public、README/ .gitignore は追加しない）
-2. このディレクトリをそのリポジトリに push する
-3. リポジトリの Settings → Pages → Source を「Deploy from a branch」、Branch を `main` / `/(root)` に設定
-4. 数分後に `https://<username>.github.io/<repo>/` で公開される
+1. Cloudflareダッシュボード → Workers & Pages → Create application → Pages タブ → Connect to Git
+2. このリポジトリ（`build-log`）を選択して連携を許可
+3. ビルド設定: Framework preset は `None`、Build command は空欄、Build output directory は `/`
+4. Save and Deploy → 数十秒で `https://build-log.pages.dev` のようなURLが発行される
+5. 以後 `main` ブランチへの push で自動デプロイされる
 
 ## 構成
 
