@@ -1,11 +1,51 @@
 document.getElementById("year").textContent = new Date().getFullYear();
 
-// hero oscilloscope — a signal trace standing in for "build activity"
+// ---------------------------------------------------------
+// Theme toggle: "dark" (neon) <-> "soft"
+// ---------------------------------------------------------
+const root = document.documentElement;
+const toggle = document.getElementById("themeToggle");
+const toggleLabel = document.getElementById("themeToggleLabel");
+
+function applyTheme(theme) {
+  root.setAttribute("data-theme", theme);
+  if (toggle) toggle.setAttribute("aria-pressed", theme === "soft" ? "true" : "false");
+  if (toggleLabel) toggleLabel.textContent = theme === "soft" ? "soft" : "neon";
+  document.dispatchEvent(new CustomEvent("themechange", { detail: { theme } }));
+}
+
+const storedTheme = localStorage.getItem("theme");
+applyTheme(storedTheme === "soft" ? "soft" : "dark");
+
+if (toggle) {
+  toggle.addEventListener("click", () => {
+    const next = root.getAttribute("data-theme") === "soft" ? "dark" : "soft";
+    localStorage.setItem("theme", next);
+    applyTheme(next);
+  });
+}
+
+// ---------------------------------------------------------
+// Hero oscilloscope — a signal trace standing in for "build
+// activity". Redraws its color when the theme changes.
+// ---------------------------------------------------------
 const canvas = document.getElementById("scope");
 if (canvas) {
   const ctx = canvas.getContext("2d");
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const accent = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "#29f1ff";
+
+  let accent = "#29f1ff";
+  let glowBlur = 10;
+  function readTokens() {
+    const styles = getComputedStyle(root);
+    accent = styles.getPropertyValue("--accent").trim() || accent;
+    glowBlur = parseFloat(styles.getPropertyValue("--scope-blur")) || 0;
+  }
+  readTokens();
+  document.addEventListener("themechange", () => {
+    readTokens();
+    if (reduceMotion) draw(0);
+  });
 
   function resize() {
     const rect = canvas.getBoundingClientRect();
@@ -34,12 +74,19 @@ if (canvas) {
     ctx.strokeStyle = accent;
     ctx.lineWidth = 1.6;
     ctx.shadowColor = accent;
-    ctx.shadowBlur = 10;
+    ctx.shadowBlur = glowBlur;
     ctx.stroke();
   }
 
   resize();
-  window.addEventListener("resize", resize);
+  window.addEventListener("resize", () => {
+    resize();
+    // Non-reduced-motion mode is redrawn continuously by the rAF loop below,
+    // but reduced-motion only draws once — without this the canvas goes
+    // blank after any resize (e.g. orientation change) since resizing a
+    // <canvas> clears its bitmap.
+    if (reduceMotion) draw(0);
+  });
 
   if (reduceMotion) {
     draw(0);
