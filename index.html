@@ -6,15 +6,17 @@
 <title>Build Log — apps &amp; small experiments</title>
 <meta name="description" content="趣味で作っているアプリと実験の記録。個人開発のビルドログ。">
 <link rel="icon" href="data:,">
+<meta name="theme-color" content="#07060c">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;700&family=IBM+Plex+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600&family=Public+Sans:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
 <a class="skip-link" href="#main">本文へスキップ</a>
-<div class="grid-bg" aria-hidden="true"></div>
+<div class="ambient" aria-hidden="true"></div>
+<div class="scan-overlay" aria-hidden="true"></div>
 
 <aside class="rail">
   <a class="rail-mark" href="#top">
@@ -23,25 +25,26 @@
   </a>
 
   <nav class="rail-nav" aria-label="セクション">
-    <a href="#projects"><span class="tab-no">01</span><span class="tab-label">Projects</span></a>
-    <a href="#about"><span class="tab-no">02</span><span class="tab-label">About</span></a>
-    <a href="#contact"><span class="tab-no">03</span><span class="tab-label">Contact</span></a>
+    <a href="#projects"><span class="tab-no">01</span><span class="tab-label">projects</span></a>
+    <a href="#about"><span class="tab-no">02</span><span class="tab-label">about</span></a>
+    <a href="#contact"><span class="tab-no">03</span><span class="tab-label">contact</span></a>
   </nav>
 
   <div class="rail-foot">
-    <span>Vol. 01</span>
+    <span>status: online</span>
   </div>
 </aside>
 
 <main id="main">
 
   <section id="top" class="hero">
-    <p class="entry-stamp">ENTRY — 個人開発</p>
-    <h1 class="hero-title">作って、動かして、<br>気に入ったものだけ残す。</h1>
+    <p class="entry-stamp">個人開発ログ<span class="cursor" aria-hidden="true"></span></p>
+    <h1 class="hero-title">作って、動かして、<br><span class="hl">気に入ったもの</span>だけ残す。</h1>
     <p class="hero-sub">
       仕事の延長ではなく、興味の向いた方へ作っているアプリと実験の置き場所。
       壊れているものも、直したものも、そのまま並んでいます。
     </p>
+    <canvas class="scope" id="scope" aria-hidden="true"></canvas>
     <div class="hero-actions">
       <a class="btn btn-primary" href="#projects">Projects を見る</a>
       <a class="btn btn-line" href="#contact">Contact</a>
