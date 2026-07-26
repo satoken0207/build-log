@@ -386,24 +386,32 @@ main {
 
 .section-head {
   display: flex;
-  align-items: baseline;
-  gap: 16px;
-  margin-bottom: 44px;
+  align-items: center;
+  gap: clamp(16px, 3vw, 28px);
+  margin-bottom: 48px;
 }
 .section-head .tab-no {
-  font-family: var(--font-display);
-  font-size: 0.78rem;
+  flex: none;
+  font-family: var(--font-heading);
+  font-size: clamp(2.6rem, 7vw, 4.4rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
   color: var(--accent);
-  letter-spacing: 0.04em;
+  text-shadow: 0 0 26px var(--accent-glow);
 }
-.section-head .tab-no::before { content: "["; color: var(--ink-faint); }
-.section-head .tab-no::after { content: "]"; color: var(--ink-faint); }
+.section-head-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
 .section-head h2 {
   font-size: 1.55rem;
   color: var(--ink);
 }
 .section-rule {
-  flex: 1;
   height: 1px;
   background: linear-gradient(90deg, var(--line-strong), transparent);
 }
@@ -432,6 +440,7 @@ main {
   border-color: var(--accent);
   box-shadow: 0 0 0 1px var(--accent-soft), 0 0 30px -12px var(--accent-glow);
   transform: translateY(-2px);
+  cursor: pointer;
 }
 
 .specimen-top { display: flex; justify-content: space-between; align-items: center; }
@@ -500,6 +509,15 @@ main {
   border-bottom: 1px solid transparent;
   transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
 }
+/* stretches the link to cover the whole card (the nearest positioned
+   ancestor, .specimen), so clicking anywhere navigates — not just
+   the small label. .specimen-link itself must stay unpositioned or
+   it becomes its own ::after's containing block instead. */
+.specimen-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
 .specimen:hover .specimen-link,
 .specimen-link:hover,
 .specimen-link:focus-visible { color: var(--accent); border-color: var(--accent); }
@@ -550,6 +568,58 @@ main {
 }
 
 /* ---------------------------------------------------------
+   Project detail page
+   --------------------------------------------------------- */
+.detail {
+  max-width: 760px;
+  padding: 110px 0 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.detail-breadcrumb {
+  font-family: var(--font-display);
+  font-size: 0.76rem;
+  color: var(--ink-faint);
+}
+.detail-breadcrumb a {
+  color: var(--ink-dim);
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+.detail-breadcrumb a:hover,
+.detail-breadcrumb a:focus-visible { color: var(--accent); border-color: var(--accent); }
+
+.detail-top { display: flex; align-items: center; gap: 12px; }
+
+.detail h1 { font-size: clamp(1.9rem, 4.2vw, 2.7rem); }
+
+.detail-lead {
+  color: var(--ink-dim);
+  font-size: 1.05rem;
+  max-width: var(--measure);
+}
+
+.detail-visual {
+  height: clamp(180px, 30vw, 320px);
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: var(--ink-faint);
+  background: var(--panel);
+}
+
+.detail-body { display: flex; flex-direction: column; gap: 14px; }
+.detail-body p { color: var(--ink-dim); max-width: var(--measure); }
+
+.detail-meta { border-top: none; padding-top: 0; gap: 28px; }
+
+/* ---------------------------------------------------------
    Footer
    --------------------------------------------------------- */
 .site-footer {
@@ -588,4 +658,5 @@ main {
   .hero { min-height: auto; padding: 48px 0; }
   .section { padding: 64px 0; }
   .scope { height: 64px; }
+  .detail { padding: 56px 0 64px; }
 }
