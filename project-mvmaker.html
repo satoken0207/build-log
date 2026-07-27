@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ja" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MV Maker — Build Log</title>
+<meta name="description" content="音源と歌詞から、ビートに同期した字幕付き歌詞動画を自動生成するツール。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='10' fill='%2329f1ff'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#07060c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600&family=Public+Sans:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">本文へスキップ</a>
+<div class="ambient" aria-hidden="true"></div>
+<div class="scan-overlay" aria-hidden="true"></div>
+
+<aside class="rail">
+  <a class="rail-mark" href="/">
+    <span class="rail-mark-line">BUILD</span>
+    <span class="rail-mark-line">LOG</span>
+  </a>
+
+  <nav class="rail-nav" aria-label="ナビゲーション">
+    <a href="/#projects"><span class="tab-label">back</span></a>
+  </nav>
+
+  <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false">
+    <span class="theme-toggle-track" aria-hidden="true"><span class="theme-toggle-thumb"></span></span>
+    <span class="theme-toggle-label" id="themeToggleLabel">neon</span>
+  </button>
+
+  <div class="rail-foot">
+    <span>status: online</span>
+  </div>
+</aside>
+
+<main id="main">
+  <article class="detail">
+    <p class="detail-breadcrumb"><a href="/#projects">Projects</a> / MV Maker</p>
+
+    <div class="detail-top">
+      <span class="specimen-tag">Python · Desktop</span>
+      <span class="stamp stamp-live">LIVE</span>
+    </div>
+
+    <h1>MV Maker</h1>
+    <p class="detail-lead">
+      音源と歌詞から、ビートに同期した字幕付き歌詞動画を自動生成するツール。
+    </p>
+
+    <div class="detail-visual" aria-hidden="true"><span>screenshot placeholder</span></div>
+
+    <div class="detail-body">
+      <p>
+        音源・歌詞テキスト・背景動画(または画像)の3つを渡すと、字幕つきの歌詞動画(いわゆるMV風動画)を
+        自動で組み上げるTkinter製のツール。Whisperで音源から歌詞のタイミングを解析し、
+        librosaで曲のビートを検出、字幕の切り替えを拍に吸い付かせる(スナップさせる)ことで、
+        ただ文字を流すだけの字幕よりも音楽に馴染んだ見え方にしている。
+      </p>
+      <p>
+        同期モードは「AUTO」「間奏キープ(間奏で字幕を止める)」「連続歌唱(歌い続ける曲向け)」の3種類、
+        字幕スタイルは「スマート(自動で1〜2行に整形)」「クラシック(常に2行固定)」の2種類から選べ、
+        組み合わせ次第で印象が変わる。どれが一番良いか迷ったときのために、
+        全6パターン(3同期モード×2字幕スタイル)を一括生成して見比べる「絨毯爆撃モード」も搭載。
+      </p>
+      <p>
+        字幕の重なりや行数オーバー、長すぎる無字幕区間を自動でチェックするQA機能もあり、
+        生成後にすぐ気づける。複数曲をキューに積んで「夜間バッチ」でまとめて放置生成する使い方を想定。
+      </p>
+      <p>
+        ウィンドウタイトルは「爆速キャッシュ&amp;全パターン絨毯爆撃対応・至高のMV Maker」。
+        名前も機能も完全に自分用に振り切ったツール。
+      </p>
+    </div>
+
+    <dl class="specimen-meta detail-meta">
+      <div><dt>Stack</dt><dd>Python / Whisper / librosa / Tkinter</dd></div>
+      <div><dt>Since</dt><dd>2026</dd></div>
+    </dl>
+
+    <div class="hero-actions">
+      <a class="btn btn-line" href="/#projects">← Projects に戻る</a>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <span>© <span id="year"></span> Build Log</span>
+  <span>個人の趣味プロジェクトです</span>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
