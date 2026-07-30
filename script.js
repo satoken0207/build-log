@@ -26,6 +26,23 @@ if (toggle) {
 }
 
 // ---------------------------------------------------------
+// Project card launch: spin fast on click, then follow the link.
+// Skipped entirely under reduced motion — click navigates as normal.
+// ---------------------------------------------------------
+const SPIN_MS = 500;
+if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  document.querySelectorAll(".specimen-link").forEach((link) => {
+    link.addEventListener("click", (e) => {
+      const card = link.closest(".specimen");
+      if (!card || card.classList.contains("is-launching")) return;
+      e.preventDefault();
+      card.classList.add("is-launching");
+      setTimeout(() => { window.location.href = link.href; }, SPIN_MS);
+    });
+  });
+}
+
+// ---------------------------------------------------------
 // Hero oscilloscope — a signal trace standing in for "build
 // activity". Redraws its color when the theme changes.
 // ---------------------------------------------------------

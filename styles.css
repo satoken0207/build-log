@@ -449,6 +449,17 @@ main {
   cursor: pointer;
 }
 
+/* launch spin — plays on click, then script.js navigates */
+@keyframes card-launch-spin {
+  0% { transform: rotate(0deg) scale(1); }
+  85% { transform: rotate(1080deg) scale(0.92); }
+  100% { transform: rotate(1080deg) scale(0.92); opacity: 0; }
+}
+.specimen.is-launching {
+  animation: card-launch-spin 0.5s cubic-bezier(0.5, 0, 0.5, 1) forwards;
+  pointer-events: none;
+}
+
 /* a quick diagonal sweep of light — the "snap" on hover */
 .specimen::before {
   content: "";
