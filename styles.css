@@ -1,46 +1,47 @@
 /* ---------------------------------------------------------
    Build Log — two moods, one layout.
-   "neon": dark terminal/oscilloscope screen.
-   "soft": the same structure, recolored gentle and warm.
+   "pop": glossy Y2K desktop chrome + tilted sticker highlights.
+   "soft": warm paper, rounded display face, pill buttons.
    Toggle sets [data-theme] on <html>; components read only
    the custom properties below, never the theme selector.
    --------------------------------------------------------- */
 :root,
-:root[data-theme="dark"] {
-  --bg: #07060c;
-  --bg-1: #0b0a13;
-  --panel: #0e0c18;
-  --ink: #eef0fb;
-  --ink-dim: #837f9c;
-  --ink-faint: #7a76a0;
+:root[data-theme="pop"] {
+  --bg: linear-gradient(160deg, #6b7fd7 0%, #b98ee8 55%, #ffb3d6 100%);
+  --bg-solid: #b98ee8;
+  --rail-bg: linear-gradient(180deg, #ffffff, #ece9ff);
+  --panel: linear-gradient(180deg, #ffffff, #eef0ff 100%);
+  --ink: #1c1740;
+  --ink-dim: #514a80;
+  --ink-faint: #7b74a8;
 
-  --accent: #29f1ff;
-  --accent-soft: rgba(41, 241, 255, 0.14);
-  --accent-glow: rgba(41, 241, 255, 0.55);
-  --accent-2: #ff2e9a;
+  --accent: #ff2fa0;
+  --accent-soft: rgba(255, 47, 160, 0.16);
+  --accent-glow: rgba(255, 47, 160, 0); /* blur-glow doesn't read on a light gradient — pop uses hard sticker shadows instead */
+  --accent-2: #baff29;
 
-  --ok: #3dffb0;
-  --warn: #ffcf5c;
-  --mute: #8480a8;
+  --ok: #29c46f;
+  --warn: #ffb020;
+  --mute: #8f89b8;
 
-  --line: rgba(148, 143, 199, 0.16);
-  --line-strong: rgba(148, 143, 199, 0.32);
+  --line: rgba(60, 53, 118, 0.16);
+  --line-strong: rgba(60, 53, 118, 0.32);
 
-  --scan-opacity: 0.025;
-  --ambient-1: rgba(41, 241, 255, 0.10);
-  --ambient-2: rgba(255, 46, 154, 0.08);
-  --scope-blur: 10px;
-  --radius-btn: var(--radius);
+  --scan-opacity: 0;
+  --ambient-1: rgba(255, 255, 255, 0.4);
+  --ambient-2: rgba(255, 255, 255, 0.2);
+  --scope-blur: 0px;
+  --radius: 16px;
+  --radius-btn: 999px;
 
   --font-display: "JetBrains Mono", "Consolas", "SFMono-Regular", monospace;
-  --font-heading: var(--font-display);
+  --font-heading: "Trebuchet MS", "Verdana", "Hiragino Kaku Gothic ProN", sans-serif;
   --font-body: "Public Sans", "Noto Sans JP", "Hiragino Kaku Gothic ProN", sans-serif;
 
   --measure: 60ch;
-  --radius: 2px;
   --ease: cubic-bezier(0.16, 0.8, 0.24, 1);
 
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 /* soft: warm, playful, magazine-ish — a different personality,
@@ -49,7 +50,8 @@
    bolder face. Mustard + terracotta, pill buttons. */
 :root[data-theme="soft"] {
   --bg: #fbf3e1;
-  --bg-1: #f5e8cd;
+  --bg-solid: #fbf3e1;
+  --rail-bg: linear-gradient(180deg, #f5e8cd, #fbf3e1);
   --panel: #f7ecd6;
   --ink: #2a2013;
   --ink-dim: #6e6146;
@@ -73,6 +75,7 @@
   --ambient-1: rgba(238, 159, 55, 0.16);
   --ambient-2: rgba(222, 106, 66, 0.10);
   --scope-blur: 0px;
+  --radius: 2px;
   --radius-btn: 999px;
 
   color-scheme: light;
@@ -106,7 +109,7 @@ dl { margin: 0; }
 
 ::selection {
   background: var(--accent);
-  color: var(--bg);
+  color: var(--bg-solid);
 }
 
 .skip-link {
@@ -114,7 +117,7 @@ dl { margin: 0; }
   left: -999px;
   top: 0;
   background: var(--accent);
-  color: var(--bg);
+  color: var(--bg-solid);
   padding: 0.6em 1em;
   z-index: 100;
 }
@@ -170,7 +173,7 @@ dl { margin: 0; }
   justify-content: space-between;
   padding: 26px 22px;
   border-right: 1px solid var(--line);
-  background: linear-gradient(180deg, var(--bg-1), var(--bg));
+  background: var(--rail-bg);
   z-index: 20;
 }
 
@@ -652,6 +655,65 @@ main {
 .detail-body p { color: var(--ink-dim); max-width: var(--measure); }
 
 .detail-meta { border-top: none; padding-top: 0; gap: 28px; }
+
+/* ---------------------------------------------------------
+   Pop theme signature: tilted stickers, glossy chrome.
+   Structural overrides live here instead of forcing every
+   component through generic tokens — the sticker/bevel motif
+   is specific to this theme, not a shared shape.
+   --------------------------------------------------------- */
+:root[data-theme="pop"] .hero-title .hl {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  padding: 2px 14px;
+  border-radius: 8px;
+  transform: rotate(-2deg);
+  text-shadow: none;
+  box-shadow: 3px 3px 0 var(--ink);
+}
+
+:root[data-theme="pop"] .section-head .tab-no {
+  text-shadow: 3px 3px 0 var(--ink);
+}
+
+:root[data-theme="pop"] .entry-stamp {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+:root[data-theme="pop"] .btn-primary {
+  background: linear-gradient(180deg, #ffffff, #d8ddff 45%, #b7bdf5 100%);
+  border-color: #6b6fc4;
+  color: #33307a;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset, 0 3px 8px rgba(30, 20, 70, 0.35);
+}
+:root[data-theme="pop"] .btn-primary:hover,
+:root[data-theme="pop"] .btn-primary:focus-visible {
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset, 0 5px 14px rgba(30, 20, 70, 0.4);
+}
+:root[data-theme="pop"] .btn-line { border-color: #6b5fae; }
+:root[data-theme="pop"] .btn-line:hover,
+:root[data-theme="pop"] .btn-line:focus-visible { box-shadow: none; }
+
+:root[data-theme="pop"] .specimen:hover,
+:root[data-theme="pop"] .specimen:focus-within {
+  transform: rotate(-2deg) translateY(-6px);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.6) inset, 4px 14px 26px rgba(40, 20, 90, 0.28);
+  border-color: #a9adf0;
+}
+
+:root[data-theme="pop"] .stamp {
+  color: #fff;
+  border-radius: 999px;
+  padding: 3px 11px;
+  transform: rotate(-3deg);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+:root[data-theme="pop"] .stamp::before { display: none; }
+:root[data-theme="pop"] .stamp-live { background: var(--ok); transform: rotate(2deg); }
+:root[data-theme="pop"] .stamp-wip { background: var(--accent); }
+:root[data-theme="pop"] .stamp-archive { background: #746d99; }
 
 /* ---------------------------------------------------------
    Footer

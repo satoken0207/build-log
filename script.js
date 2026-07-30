@@ -1,7 +1,7 @@
 document.getElementById("year").textContent = new Date().getFullYear();
 
 // ---------------------------------------------------------
-// Theme toggle: "dark" (neon) <-> "soft"
+// Theme toggle: "pop" (glossy Y2K) <-> "soft"
 // ---------------------------------------------------------
 const root = document.documentElement;
 const toggle = document.getElementById("themeToggle");
@@ -10,16 +10,16 @@ const toggleLabel = document.getElementById("themeToggleLabel");
 function applyTheme(theme) {
   root.setAttribute("data-theme", theme);
   if (toggle) toggle.setAttribute("aria-pressed", theme === "soft" ? "true" : "false");
-  if (toggleLabel) toggleLabel.textContent = theme === "soft" ? "soft" : "neon";
+  if (toggleLabel) toggleLabel.textContent = theme === "soft" ? "soft" : "pop";
   document.dispatchEvent(new CustomEvent("themechange", { detail: { theme } }));
 }
 
 const storedTheme = localStorage.getItem("theme");
-applyTheme(storedTheme === "soft" ? "soft" : "dark");
+applyTheme(storedTheme === "soft" ? "soft" : "pop");
 
 if (toggle) {
   toggle.addEventListener("click", () => {
-    const next = root.getAttribute("data-theme") === "soft" ? "dark" : "soft";
+    const next = root.getAttribute("data-theme") === "soft" ? "pop" : "soft";
     localStorage.setItem("theme", next);
     applyTheme(next);
   });
@@ -34,7 +34,7 @@ if (canvas) {
   const ctx = canvas.getContext("2d");
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  let accent = "#29f1ff";
+  let accent = "#ff2fa0";
   let glowBlur = 10;
   function readTokens() {
     const styles = getComputedStyle(root);
