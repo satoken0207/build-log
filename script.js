@@ -42,6 +42,18 @@ if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
   });
 }
 
+// The browser can restore this page from bfcache on back/forward nav
+// with the "is-launching" class (and its animation end-state, opacity:0)
+// still applied from just before we navigated away. Clear it so the
+// card is visible again instead of staying invisible forever.
+window.addEventListener("pageshow", (e) => {
+  if (e.persisted) {
+    document.querySelectorAll(".specimen.is-launching").forEach((card) => {
+      card.classList.remove("is-launching");
+    });
+  }
+});
+
 // ---------------------------------------------------------
 // Hero oscilloscope — a signal trace standing in for "build
 // activity". Redraws its color when the theme changes.
