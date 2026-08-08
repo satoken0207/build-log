@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="ja" data-theme="pop">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>見張り番 困ったとき｜対応条件・接続・安全 — Build Log</title>
+<meta name="description" content="見張り番の対応条件、確認済みカメラ、カメラが見つからない・映らない・録画されない場合、SmartScreenやウイルス対策ソフトの警告、問い合わせ方法を説明します。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='10' fill='%23ff2fa0'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#b98ee8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600&family=Public+Sans:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">本文へスキップ</a>
+<div class="ambient" aria-hidden="true"></div>
+<div class="scan-overlay" aria-hidden="true"></div>
+
+<aside class="rail">
+  <a class="rail-mark" href="/"><span class="rail-mark-line">BUILD</span><span class="rail-mark-line">LOG</span></a>
+  <nav class="rail-nav" aria-label="ナビゲーション"><a href="project-mihariban.html"><span class="tab-label">product</span></a></nav>
+  <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false">
+    <span class="theme-toggle-track" aria-hidden="true"><span class="theme-toggle-thumb"></span></span>
+    <span class="theme-toggle-label" id="themeToggleLabel">pop</span>
+  </button>
+  <div class="rail-foot"><span>manual: help</span></div>
+</aside>
+
+<main id="main" tabindex="-1">
+  <article class="detail manual-page">
+    <nav class="detail-breadcrumb" aria-label="パンくず">
+      <ol class="breadcrumb-list">
+        <li><a href="/#projects">Projects</a></li>
+        <li><a href="project-mihariban.html">見張り番</a></li>
+        <li aria-current="page">困ったとき</li>
+      </ol>
+    </nav>
+
+    <nav class="product-nav" aria-label="見張り番のページ">
+      <a href="project-mihariban.html">製品概要</a>
+      <a href="mihariban-start.html">はじめ方</a>
+      <a href="mihariban-use.html">使い方</a>
+      <a href="mihariban-recordings.html">録画を見る</a>
+      <a href="mihariban-help.html" aria-current="page">困ったとき</a>
+    </nav>
+
+    <div class="detail-top"><span class="specimen-tag">Manual 04</span><span class="stamp stamp-wip">公開準備中</span></div>
+    <h1>対応条件・困ったとき</h1>
+    <p class="detail-lead">購入前に確かめることと、カメラ・映像・録画・警告の問題を、症状から順番に切り分けます。</p>
+    <p class="status-line"><span>現行画面の配置・文言を再現した説明図</span><span>アプリから撮影したスクリーンショットではありません</span><span>キー・版・問い合わせ例は公開用データ</span></p>
+
+    <aside class="callout warning">
+      <strong>現在は公開前の最終確認中です。</strong>
+      ダウンロードと販売はまだ始めていません。正式公開後も、購入前に30日間の試用でお手持ちのカメラを確認してください。
+    </aside>
+
+    <div class="manual-layout">
+      <nav class="manual-toc" aria-label="このページの目次">
+        <strong>このページの目次</strong>
+        <ol>
+          <li><a href="#requirements">購入前の条件</a></li>
+          <li><a href="#compatibility">確認済み機種</a></li>
+          <li><a href="#limits">できないこと</a></li>
+          <li><a href="#camera-not-found">カメラが見つからない</a></li>
+          <li><a href="#video">映像が出ない</a></li>
+          <li><a href="#recording">録画されない</a></li>
+          <li><a href="#playback">再生・保存</a></li>
+          <li><a href="#security">Windowsの警告</a></li>
+          <li><a href="#license">試用とライセンス</a></li>
+          <li><a href="#contact">問い合わせ</a></li>
+        </ol>
+      </nav>
+
+      <div class="manual-copy">
+        <section id="requirements">
+          <p class="section-kicker">Before purchase</p>
+          <h2>購入前に4つを確認</h2>
+          <div class="table-wrap">
+            <table class="manual-table">
+              <caption>動作条件</caption>
+              <thead><tr><th scope="col">項目</th><th scope="col">必要な条件</th><th scope="col">確認方法</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">Windows</th><td>Windows 10 バージョン1809以降、またはWindows 11。64bit。</td><td>設定 → システム → バージョン情報。</td></tr>
+                <tr><th scope="row">画面</th><td>1280×720以上を推奨。</td><td>設定 → システム → ディスプレイ。</td></tr>
+                <tr><th scope="row">カメラ</th><td>ONVIF対応、H.264で映像を送れること。</td><td>メーカー仕様と試用版の接続画面。</td></tr>
+                <tr><th scope="row">ネットワーク</th><td>パソコンとカメラが同じ家庭内LANにいること。</td><td>ゲストWi‑FiとVPNを避けて試す。</td></tr>
+                <tr><th scope="row">空き容量</th><td>アプリ本体は約60MB。別に録画容量が必要。</td><td>静かな1台で30日約4GBから、動きが多いと約42GBの実測例。</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>ZIPを展開して起動するため、.NETの追加インストールは不要です。</p>
+        </section>
+
+        <section id="compatibility">
+          <p class="section-kicker">Compatibility</p>
+          <h2>実機で確認できた範囲</h2>
+          <div class="table-wrap">
+            <table class="manual-table">
+              <caption>2026年8月9日現在。確認できた事実だけを掲載しています。</caption>
+              <thead><tr><th scope="col">カメラ</th><th scope="col">結果</th><th scope="col">確認した範囲</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">TP-Link Tapo C520WS</th><td>確認済み</td><td>自動発見、接続、映像表示、動体検知録画。日中の実測で2560×1440・25.00fps。</td></tr>
+                <tr><th scope="row">X3-WR-V-BL</th><td>非対応</td><td>H.265専用で、H.264へ変更できないため。</td></tr>
+                <tr><th scope="row">その他のONVIF機種</th><td>未確認</td><td>規格に対応していても、メーカーごとの実装差があります。試用で確認が必要です。</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <aside class="callout">
+            「ONVIF対応」だけでは動作保証になりません。正式公開後は、30日間の試用中に映像表示だけでなく、実際の動きで録画と再生まで確認してください。
+          </aside>
+        </section>
+
+        <section id="limits">
+          <p class="section-kicker">Limits</p>
+          <h2>現在できないこと</h2>
+          <ul>
+            <li>H.265（HEVC）だけを送るカメラ</li>
+            <li>USB接続のWebカメラ</li>
+            <li>外出先からインターネット経由で見ること</li>
+            <li>メール・LINEなど外部サービスへの通知</li>
+            <li>カメラ本体のスピーカーから警報を鳴らすこと</li>
+            <li>すべてのONVIF機種での動作保証</li>
+            <li>カメラが音声を送らない場合の録音</li>
+            <li>IPアドレス指定で追加したカメラの、後からの画質変更</li>
+            <li>警報音へMP3を使うこと（WAVのみ）</li>
+          </ul>
+        </section>
+
+        <section id="camera-not-found">
+          <p class="section-kicker">Troubleshooting 01</p>
+          <h2>カメラが見つからない</h2>
+          <div class="screen-guide">
+            <figure class="screen-shot">
+              <a class="shot-link" href="assets/mihariban/screens/05-problem.png" target="_blank" rel="noopener">
+                <img src="assets/mihariban/screens/05-problem.png" width="880" height="680" alt="カメラに接続できない原因と対処を知らせる画面" loading="lazy">
+              </a>
+              <figcaption>アプリ内でも原因に合わせた対処を表示します。</figcaption>
+            </figure>
+            <ol class="screen-key">
+              <li>カメラ側でONVIF、または外部接続用のカメラアカウントを有効にします。</li>
+              <li>パソコンとカメラを同じネットワークへ接続します。ゲストWi‑FiとVPNを避けます。</li>
+              <li>Windowsのネットワークを「プライベート」にし、ファイアウォールで見張り番を許可します。</li>
+              <li>自動探索に応答しない場合は、IPアドレスを指定して追加します。</li>
+            </ol>
+          </div>
+        </section>
+
+        <section id="video">
+          <p class="section-kicker">Troubleshooting 02</p>
+          <h2>ID・パスワードを入れても映像が出ない</h2>
+          <div class="faq-list">
+            <details open>
+              <summary>「IDまたはパスワードが違います」と出る</summary>
+              <div>
+                <p>スマートフォンアプリのログインではなく、カメラ本体へ接続するためのアカウントか確認します。大文字・小文字、前後の空白も確認します。</p>
+                <p>登録済みカメラを初期化した後は、保存済みの情報が古い場合があります。入力し直してください。</p>
+              </div>
+            </details>
+            <details>
+              <summary>H.265、HEVCと表示される</summary>
+              <div><p>カメラ側の圧縮方式をH.264へ変更します。変更する項目が無い場合、そのカメラはH.265専用のため利用できません。</p></div>
+            </details>
+            <details>
+              <summary>映像が途中で止まる</summary>
+              <div>
+                <p>機種によっては同じ映像へ1つしか接続できません。スマートフォンの純正アプリで同じ映像を開いている場合は閉じてから確認します。</p>
+                <p>ネットワークやカメラにより、ライブ表示が数秒遅れる場合があります。</p>
+              </div>
+            </details>
+          </div>
+        </section>
+
+        <section id="recording">
+          <p class="section-kicker">Troubleshooting 03</p>
+          <h2>映像は出るが録画されない</h2>
+          <ol class="steps">
+            <li>右上に「録画中」が出るか確認します。</li>
+            <li>状態が「停止中」ではないか確認します。</li>
+            <li>スマートフォンの純正アプリで同じ映像を開いていないか確認します。</li>
+            <li>「録画を保存できません」が出ていないか確認します。</li>
+            <li>監視時間外、検知しない場所、感度、動きが続く時間を確認します。</li>
+            <li>ライブ映像そのものが止まっていないか確認します。</li>
+            <li>30日間の試用期間が終了していないか確認します。</li>
+          </ol>
+          <p>録画が多すぎる場合は、<a href="mihariban-use.html#detection">検知調整の順番</a>に沿って、まず除外範囲から見直します。</p>
+        </section>
+
+        <section id="playback">
+          <p class="section-kicker">Troubleshooting 04</p>
+          <h2>録画が開けない・保存先がいっぱい</h2>
+          <div class="faq-list">
+            <details open>
+              <summary>一覧に「再生できません」と出る</summary>
+              <div><p>録画中の電源断やファイルの欠損が考えられます。必要な場合は、そのMP4と同名JSONを組にして問い合わせます。</p></div>
+            </details>
+            <details>
+              <summary>一覧に録画が出ない</summary>
+              <div><p>「最新の状態にする」を押します。保存先を変更した場合、以前の録画は新しい場所へ自動では移りません。</p></div>
+            </details>
+            <details>
+              <summary>ドライブの空きが少ない</summary>
+              <div><p>初期設定では空き10GBを下回ると古い録画から整理します。残したい録画を別の場所へコピーしてから、保存日数・合計容量・保存先を見直します。</p></div>
+            </details>
+          </div>
+        </section>
+
+        <section id="security">
+          <p class="section-kicker">Windows security</p>
+          <h2>SmartScreenやウイルス対策ソフトの警告</h2>
+          <p>
+            見張り番には現在コード署名を付けていません。また、カメラ映像の常時受信、家庭内ネットワークの探索、Windows自動起動という動きから、警告や誤検出が起きる可能性があります。
+          </p>
+          <aside class="callout warning">
+            <strong>警告を無条件に無視しないでください。</strong>
+            正規の入手元から取得したファイルか、表示された検出名と版を確認します。不明な場合は実行せず問い合わせてください。
+          </aside>
+          <ul>
+            <li>SmartScreenでは「詳細情報」から発行元とファイル名を確認して判断します。</li>
+            <li>隔離された場合は、正規の入手元を確認したうえで、利用者自身の判断で復元・許可します。</li>
+            <li>アプリが通信するのは同じLAN内のカメラです。利用状況の収集、広告、インターネットへの情報送信は行いません。</li>
+          </ul>
+        </section>
+
+        <section id="license">
+          <p class="section-kicker">Trial & license</p>
+          <h2>30日間の試用とライセンス</h2>
+          <div class="screen-guide">
+            <figure class="screen-shot">
+              <a class="shot-link" href="assets/mihariban/screens/14-license.png" target="_blank" rel="noopener">
+                <img src="assets/mihariban/screens/14-license.png" width="775" height="550" alt="購入時のライセンスキーを登録する画面" loading="lazy">
+              </a>
+              <figcaption>公開用画像のキー欄は空です。実際のキーは公開・送信しないでください。</figcaption>
+            </figure>
+            <ol class="screen-key">
+              <li>上の欄で、試用中・終了間近・期限切れ・登録済みの状態を確認します。</li>
+              <li>正式公開後、購入時のメールにあるキーを貼り付けます。</li>
+              <li>「登録する」を押します。大文字小文字やハイフンの違いは気にしなくて構いません。</li>
+            </ol>
+          </div>
+          <p>
+            試用中はすべての機能を利用できます。期間が終わると新しい録画は止まりますが、ライブ表示は続きます。
+            それまでの録画は消えず、再生と日時入り書き出しを続けられます。
+          </p>
+        </section>
+
+        <section id="contact">
+          <p class="section-kicker">Support</p>
+          <h2>問い合わせる前に、版と発生時刻を確認</h2>
+          <div class="screen-guide">
+            <figure class="screen-shot">
+              <a class="shot-link" href="assets/mihariban/screens/15-about.png" target="_blank" rel="noopener">
+                <img src="assets/mihariban/screens/15-about.png" width="775" height="650" alt="見張り番のバージョン、問い合わせ先、第三者ライセンスを示す画面" loading="lazy">
+              </a>
+              <figcaption>監視画面上部の「このアプリについて」から開きます。</figcaption>
+            </figure>
+            <ol class="screen-key">
+              <li>「このアプリについて」で、バージョンと記録番号を確認します。</li>
+              <li>問題が起きた日時とタイムゾーン、Windowsの版、カメラのメーカー・型番を控えます。</li>
+              <li>録画の問題では、必要な録画1本と同名JSONだけを用意します。</li>
+              <li><a href="mailto:sk.system.mtk@gmail.com">sk.system.mtk@gmail.com</a> へ連絡します。</li>
+            </ol>
+          </div>
+          <aside class="callout warning">
+            <strong>送らないもの：</strong>
+            license.json、cameras.json、カメラのID・パスワード、設定フォルダ一式、問題と関係のない録画。録画には私的な映像や音声が含まれるため、必要最小限にしてください。
+          </aside>
+          <div class="manual-next">
+            <a class="btn btn-line" href="mihariban-recordings.html">← 録画を見る</a>
+            <a class="btn btn-primary" href="project-mihariban.html">製品概要へ戻る</a>
+          </div>
+        </section>
+      </div>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer"><span>© <span id="year"></span> Build Log</span><span>見張り番 オンライン説明書</span></footer>
+<script src="script.js"></script>
+</body>
+</html>

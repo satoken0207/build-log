@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="ja" data-theme="pop">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>見張り番 録画を見る｜再生・書き出し・保存 — Build Log</title>
+<meta name="description" content="見張り番の録画一覧、再生、録画状態の印、日時入り書き出し、削除、保存先、自動削除を、現行画面に準拠した説明図で案内します。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='10' fill='%23ff2fa0'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#b98ee8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600&family=Public+Sans:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">本文へスキップ</a>
+<div class="ambient" aria-hidden="true"></div>
+<div class="scan-overlay" aria-hidden="true"></div>
+
+<aside class="rail">
+  <a class="rail-mark" href="/"><span class="rail-mark-line">BUILD</span><span class="rail-mark-line">LOG</span></a>
+  <nav class="rail-nav" aria-label="ナビゲーション"><a href="project-mihariban.html"><span class="tab-label">product</span></a></nav>
+  <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false">
+    <span class="theme-toggle-track" aria-hidden="true"><span class="theme-toggle-thumb"></span></span>
+    <span class="theme-toggle-label" id="themeToggleLabel">pop</span>
+  </button>
+  <div class="rail-foot"><span>manual: records</span></div>
+</aside>
+
+<main id="main" tabindex="-1">
+  <article class="detail manual-page">
+    <nav class="detail-breadcrumb" aria-label="パンくず">
+      <ol class="breadcrumb-list">
+        <li><a href="/#projects">Projects</a></li>
+        <li><a href="project-mihariban.html">見張り番</a></li>
+        <li aria-current="page">録画を見る</li>
+      </ol>
+    </nav>
+
+    <nav class="product-nav" aria-label="見張り番のページ">
+      <a href="project-mihariban.html">製品概要</a>
+      <a href="mihariban-start.html">はじめ方</a>
+      <a href="mihariban-use.html">使い方</a>
+      <a href="mihariban-recordings.html" aria-current="page">録画を見る</a>
+      <a href="mihariban-help.html">困ったとき</a>
+    </nav>
+
+    <div class="detail-top"><span class="specimen-tag">Manual 03</span><span class="stamp stamp-wip">公開準備中</span></div>
+    <h1>録画を見る・残す</h1>
+    <p class="detail-lead">録画を日付から探して再生し、必要な場面を書き出す。保存容量と自動整理の仕組みまで説明します。</p>
+    <p class="status-line"><span>現行画面の配置・文言を再現した説明図</span><span>アプリから撮影したスクリーンショットではありません</span><span>録画・カメラ名は公開用データ</span></p>
+
+    <div class="manual-layout">
+      <nav class="manual-toc" aria-label="このページの目次">
+        <strong>このページの目次</strong>
+        <ol>
+          <li><a href="#open">録画一覧を開く</a></li>
+          <li><a href="#marks">状態の印</a></li>
+          <li><a href="#play">再生する</a></li>
+          <li><a href="#export">日時入り書き出し</a></li>
+          <li><a href="#delete">削除する</a></li>
+          <li><a href="#files">MP4とJSON</a></li>
+          <li><a href="#retention">自動整理</a></li>
+          <li><a href="#capacity">容量の目安</a></li>
+        </ol>
+      </nav>
+
+      <div class="manual-copy">
+        <section id="open">
+          <p class="section-kicker">Recording browser</p>
+          <h2>監視を止めずに、録画一覧を開く</h2>
+          <div class="screen-guide">
+            <figure class="screen-shot">
+              <a class="shot-link" href="assets/mihariban/screens/13-recordings.png" target="_blank" rel="noopener">
+                <img src="assets/mihariban/screens/13-recordings.png" width="1350" height="875" alt="日付別の録画一覧と再生画面が左右に並ぶ画面" loading="eager">
+              </a>
+              <figcaption>監視画面の「録画を見る」から開きます。画像を押すと原寸で確認できます。</figcaption>
+            </figure>
+            <ol class="screen-key">
+              <li><strong>最新の状態にする</strong> — 開いた後に増えた録画を一覧へ読み直します。</li>
+              <li><strong>保存フォルダを開く</strong> — Windowsのエクスプローラーで録画の場所を開きます。</li>
+              <li><strong>日付別の一覧</strong> — 新しい日、新しい時刻の順に表示します。複数カメラでは名前も出ます。</li>
+              <li><strong>再生領域</strong> — 一覧で選んだ録画を、その場で再生します。</li>
+              <li><strong>日時を入れて書き出す</strong> — 元を残したまま、提出用の別ファイルを作ります。</li>
+            </ol>
+          </div>
+        </section>
+
+        <section id="marks">
+          <p class="section-kicker">Recording state</p>
+          <h2>一覧の印は「どこまで使える録画か」を示す</h2>
+          <div class="table-wrap">
+            <table class="manual-table">
+              <caption>録画一覧に出る主な表示</caption>
+              <thead><tr><th scope="col">表示</th><th scope="col">意味</th><th scope="col">扱い</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">印なし</th><td>通常どおり完成した録画です。</td><td>再生、書き出し、コピーができます。</td></tr>
+                <tr><th scope="row">録画中です</th><td>現在ファイルへ書き込んでいます。</td><td>終了するまで再生できません。</td></tr>
+                <tr><th scope="row">一部が欠けています</th><td>通信の空白などを記録しています。</td><td>再生できますが、欠けた間は前の場面が止まって見える場合があります。</td></tr>
+                <tr><th scope="row">再生できません</th><td>映像を取り出せない録画です。</td><td>必要なら同名JSONと一緒に問い合わせます。</td></tr>
+                <tr><th scope="row">日時入り</th><td>アプリで日時を入れて書き出した別ファイルです。</td><td>元の録画とは別に残ります。</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>見張り番は、欠けた録画を完全な録画に見せかけません。使える範囲を明示し、元の記録を残します。</p>
+        </section>
+
+        <section id="play">
+          <p class="section-kicker">Playback</p>
+          <h2>録画を選んで再生する</h2>
+          <ol class="steps">
+            <li>左の一覧から、見たい日付と時刻の録画を選びます。</li>
+            <li>右側で再生が始まります。再生、一時停止、最初から、音量を操作できます。</li>
+            <li>映像が開かない場合は一覧の表示と警告を確認します。別の正常な録画を選ぶと、前の警告は消えます。</li>
+          </ol>
+          <aside class="callout warning">
+            録画中にパソコンの電源が切れると、その時点で書いていた1本だけ再生できなくなる場合があります。Windowsを終了する前に見張り番を閉じてください。
+          </aside>
+        </section>
+
+        <section id="export">
+          <p class="section-kicker">Export</p>
+          <h2>必要な録画だけ、日時入りの別ファイルにする</h2>
+          <ol class="steps">
+            <li>録画を1本選び、「日時を入れて書き出す」を押します。</li>
+            <li>確認画面で対象日時、元の録画が残ること、出力名を確認します。</li>
+            <li>同じフォルダに、元の名前へ「_日時入り」を付けたMP4を作ります。</li>
+          </ol>
+          <ul>
+            <li>元の録画は変更しません。</li>
+            <li>カメラ側ですでに日時を表示している場合は、日時が二重になります。</li>
+            <li>音声のある録画を書き出した場合、書き出し側にも音声を残します。</li>
+            <li>撮影日時を判断できないファイルは、誤った日時を付けず中止します。</li>
+          </ul>
+        </section>
+
+        <section id="delete">
+          <p class="section-kicker">Delete safely</p>
+          <h2>削除は対象日時を確認して、ごみ箱へ</h2>
+          <p>
+            一覧の「削除」を押すと、対象の年月日と時刻を確認してからWindowsのごみ箱へ移します。
+            その場で完全削除はしません。戻す場合は、MP4と同名のJSONを一緒に戻してください。
+          </p>
+          <aside class="callout warning">
+            <strong>見張り番の録画フォルダへ、自分の動画を置かないでください。</strong>
+            自動整理は古いファイルを種類で区別しません。思い出の動画まで削除されるおそれがあります。
+          </aside>
+        </section>
+
+        <section id="files">
+          <p class="section-kicker">Files</p>
+          <h2>MP4と同名JSONは1組</h2>
+          <p>
+            MP4の隣にある同名のJSONは、映像が欠けた時間や録画の状態を残す小さな付随ファイルです。
+            録画を別の場所へ移す、ごみ箱から戻す、問い合わせへ添える場合は2つを一緒に扱います。
+          </p>
+          <ul>
+            <li>録画ファイル名と日付フォルダ名は変えないでください。撮影日時が分からなくなり、日時入り書き出しができなくなる場合があります。</li>
+            <li>保存先を変えても、過去の録画は自動では移りません。移動する場合は見張り番を閉じ、日付フォルダごと移します。</li>
+            <li>消えて困る録画は、自動整理の対象外となる別のフォルダや外付け媒体へ早めにコピーしてください。</li>
+          </ul>
+        </section>
+
+        <section id="retention">
+          <p class="section-kicker">Retention</p>
+          <h2>古い録画は3つの条件で自動整理</h2>
+          <p>初期設定では、次のうち<strong>最初に当たった条件</strong>で古い録画から削除します。</p>
+          <div class="feature-grid">
+            <div class="feature-card"><strong>30日</strong><span>保存期間を過ぎた録画</span></div>
+            <div class="feature-card"><strong>100GB</strong><span>録画の合計が上限を超えた分</span></div>
+            <div class="feature-card"><strong>空き10GB</strong><span>保存ドライブの空きが下限を下回った場合</span></div>
+            <div class="feature-card"><strong>古い順</strong><span>新しい録画を残し、古い録画から整理</span></div>
+          </div>
+          <aside class="callout warning">
+            上限を小さく変更すると、次の整理で多くの録画が消える場合があります。設定画面に出る削除見込みを確認し、必要な録画を先に避難してください。
+          </aside>
+        </section>
+
+        <section id="capacity">
+          <p class="section-kicker">Capacity guide</p>
+          <h2>保存容量の実測目安</h2>
+          <div class="table-wrap">
+            <table class="manual-table">
+              <caption>1台・ある設置場所での実測。動きの量と画質で大きく変わります。</caption>
+              <thead><tr><th scope="col">周囲の動き</th><th scope="col">録画時間/日</th><th scope="col">容量/日</th><th scope="col">30日の目安</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">静かな日</th><td>約15分</td><td>約130MB</td><td>約4GB</td></tr>
+                <tr><th scope="row">人通りあり</th><td>約1時間</td><td>約550MB</td><td>約16GB</td></tr>
+                <tr><th scope="row">動きが多い日</th><td>約2時間20分</td><td>約1.4GB</td><td>約42GB</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>同じ場所でも日によって約9倍の差が出ました。カメラを増やすと合計上限へ早く達します。</p>
+          <div class="manual-next">
+            <a class="btn btn-line" href="mihariban-use.html">← 毎日の使い方</a>
+            <a class="btn btn-primary" href="mihariban-help.html">次へ：困ったとき →</a>
+          </div>
+        </section>
+      </div>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer"><span>© <span id="year"></span> Build Log</span><span>見張り番 オンライン説明書</span></footer>
+<script src="script.js"></script>
+</body>
+</html>

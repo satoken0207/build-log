@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="ja" data-theme="pop">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>見張り番 はじめ方｜画面で見る初回設定 — Build Log</title>
+<meta name="description" content="見張り番のZIP展開からカメラの自動探索、接続用ID・パスワード、画質選択、IPアドレス指定での追加まで、現行画面に準拠した説明図で案内します。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='10' fill='%23ff2fa0'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#b98ee8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600&family=Public+Sans:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">本文へスキップ</a>
+<div class="ambient" aria-hidden="true"></div>
+<div class="scan-overlay" aria-hidden="true"></div>
+
+<aside class="rail">
+  <a class="rail-mark" href="/">
+    <span class="rail-mark-line">BUILD</span>
+    <span class="rail-mark-line">LOG</span>
+  </a>
+  <nav class="rail-nav" aria-label="ナビゲーション">
+    <a href="project-mihariban.html"><span class="tab-label">product</span></a>
+  </nav>
+  <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false">
+    <span class="theme-toggle-track" aria-hidden="true"><span class="theme-toggle-thumb"></span></span>
+    <span class="theme-toggle-label" id="themeToggleLabel">pop</span>
+  </button>
+  <div class="rail-foot"><span>manual: start</span></div>
+</aside>
+
+<main id="main" tabindex="-1">
+  <article class="detail manual-page">
+    <nav class="detail-breadcrumb" aria-label="パンくず">
+      <ol class="breadcrumb-list">
+        <li><a href="/#projects">Projects</a></li>
+        <li><a href="project-mihariban.html">見張り番</a></li>
+        <li aria-current="page">はじめ方</li>
+      </ol>
+    </nav>
+
+    <nav class="product-nav" aria-label="見張り番のページ">
+      <a href="project-mihariban.html">製品概要</a>
+      <a href="mihariban-start.html" aria-current="page">はじめ方</a>
+      <a href="mihariban-use.html">使い方</a>
+      <a href="mihariban-recordings.html">録画を見る</a>
+      <a href="mihariban-help.html">困ったとき</a>
+    </nav>
+
+    <div class="detail-top">
+      <span class="specimen-tag">Manual 01</span>
+      <span class="stamp stamp-wip">公開準備中</span>
+    </div>
+    <h1>はじめ方</h1>
+    <p class="detail-lead">ZIPを展開して、カメラの映像が出るまで。自動追加の4画面と、失敗時・手動追加の4画面に分かれる、合わせて8画面を案内します。</p>
+    <p class="status-line"><span>現行画面の配置・文言を再現した説明図</span><span>アプリから撮影したスクリーンショットではありません</span><span>画像内のカメラ・IP・アカウントは公開用データ</span></p>
+
+    <aside class="callout warning">
+      <strong>ZIPの中から直接起動しないでください。</strong>
+      最初に右クリックして「すべて展開」を選びます。展開しないまま起動すると、設定や自動起動の場所が変わり、次回起動できなくなる場合があります。
+    </aside>
+
+    <div class="manual-layout">
+      <nav class="manual-toc" aria-label="このページの目次">
+        <strong>このページの目次</strong>
+        <ol>
+          <li><a href="#prepare">用意するもの</a></li>
+          <li><a href="#extract">ZIPを展開する</a></li>
+          <li><a href="#search">自動で探す</a></li>
+          <li><a href="#account">接続用アカウント</a></li>
+          <li><a href="#quality">画質を選ぶ</a></li>
+          <li><a href="#problem">接続できない表示</a></li>
+          <li><a href="#manual-add">IPを指定して追加</a></li>
+          <li><a href="#finish">監視を始める</a></li>
+        </ol>
+      </nav>
+
+      <div class="manual-copy">
+        <section id="prepare">
+          <p class="section-kicker">Before you start</p>
+          <h2>用意するもの</h2>
+          <ul>
+            <li>Windows 10 バージョン1809以降、またはWindows 11の64bitパソコン</li>
+            <li>ONVIFに対応し、H.264で映像を送れるネットワークカメラ</li>
+            <li>カメラと同じ家庭内ネットワークへ接続したパソコン</li>
+            <li>カメラ本体へ接続するためのIDとパスワード</li>
+          </ul>
+          <p class="callout">
+            スマートフォン用アプリへログインするメールアドレスと、カメラへ接続するIDは別の場合があります。
+            たとえばTapoでは、カメラの設定にある「カメラアカウント」で作成します。
+          </p>
+        </section>
+
+        <section id="extract">
+          <p class="section-kicker">Step 0</p>
+          <h2>ZIPを展開して起動する</h2>
+          <ol class="steps">
+            <li>入手したZIPを右クリックし、<strong>「すべて展開」</strong>を選びます。</li>
+            <li>展開したフォルダを「ドキュメント」「デスクトップ」など、書き込める場所へ置きます。<strong>Program Filesの中には置きません。</strong></li>
+            <li>展開先にある「見張り番」を起動します。.NETを別に入れる必要はありません。</li>
+            <li>Windowsの警告が出た場合は、正規の入手元であることを確認してから判断します。見張り番は現在コード署名なしです。</li>
+          </ol>
+        </section>
+
+        <section id="search">
+          <p class="section-kicker">Step 1–2</p>
+          <h2>カメラを自動で探して選ぶ</h2>
+
+          <div class="screen-guide">
+            <figure class="screen-shot">
+              <a class="shot-link" href="assets/mihariban/screens/01-searching.png" target="_blank" rel="noopener">
+                <img src="assets/mihariban/screens/01-searching.png" width="1100" height="850" alt="見張り番がネットワーク上のカメラを自動で探している画面" loading="eager">
+              </a>
+              <figcaption>起動すると自動で探索が始まります。画像を押すと原寸で開きます。</figcaption>
+            </figure>
+            <ol class="screen-key">
+              <li>進み具合が表示されます。ここでは操作せず待ちます。</li>
+              <li>カメラの電源と、パソコンと同じWi‑Fi・LANにいることを確認します。</li>
+              <li>ゲストWi‑FiやVPNでは見つからない場合があります。</li>
+            </ol>
+          </div>
+
+          <div class="screen-guide">
+            <figure class="screen-shot">
+              <a class="shot-link" href="assets/mihariban/screens/02-camera-list.png" target="_blank" rel="noopener">
+                <img src="assets/mihariban/screens/02-camera-list.png" width="880" height="680" alt="見つかったカメラをメーカー名と型番から選ぶ画面" loading="lazy">
+              </a>
+              <figcaption>数字だけでなく、メーカー名と型番で見分けられます。</figcaption>
+            </figure>
+            <ol class="screen-key">
+              <li>自分のカメラのメーカー名と型番を確認します。</li>
+              <li>「このカメラを追加」を押します。</li>
+              <li>出てこないときは、カメラ側のONVIF設定を確認して「もう一度さがす」を押します。</li>
+            </ol>
+          </div>
+        </section>
+
+        <section id="account">
+          <p class="section-kicker">Step 3</p>
+          <h2>カメラ接続用のIDとパスワードを入れる</h2>
+          <div class="screen-guide">
+            <figure class="screen-shot">
+              <a class="shot-link" href="assets/mihariban/screens/03-credentials.png" target="_blank" rel="noopener">
+                <img src="assets/mihariban/screens/03-credentials.png" width="880" height="680" alt="カメラ接続用のIDとパスワードを入力する画面" loading="lazy">
+              </a>
+              <figcaption>メーカーごとの作成場所を、入力欄の上に案内します。</figcaption>
+            </figure>
+            <ol class="screen-key">
+              <li>黄色い案内で、カメラ接続用アカウントの作り方を確認します。</li>
+              <li>IDとパスワードを入力します。説明用画像ではどちらも架空または空欄です。</li>
+              <li>「接続する」を押します。登録済みカメラはWindows暗号化で保存した情報を使えます。</li>
+            </ol>
+          </div>
+          <aside class="callout safe">
+            <strong>パスワードは平文で保存しません。</strong>
+            Windowsの暗号化機能で、このWindowsユーザーからだけ読める形にして保存します。問い合わせ時もIDやパスワードを送らないでください。
+          </aside>
+        </section>
+
+        <section id="quality">
+          <p class="section-kicker">Step 4</p>
+          <h2>録画に使う画質を選ぶ</h2>
+          <div class="screen-guide">
+            <figure class="screen-shot">
+              <a class="shot-link" href="assets/mihariban/screens/04-quality.png" target="_blank" rel="noopener">
+                <img src="assets/mihariban/screens/04-quality.png" width="880" height="680" alt="接続できたカメラの解像度と映像形式を選ぶ画面" loading="lazy">
+              </a>
+              <figcaption>接続できるH.264映像を、大きさごとに表示します。</figcaption>
+            </figure>
+            <ol class="screen-key">
+              <li>「2560×1440」のような解像度と「H264」を確認します。</li>
+              <li>軽さと保存容量を優先するなら小さい解像度を選びます。</li>
+              <li>人物や細部を残したいなら大きい解像度を選びます。パソコンと保存容量の負担は増えます。</li>
+            </ol>
+          </div>
+        </section>
+
+        <section id="problem">
+          <p class="section-kicker">If connection fails</p>
+          <h2>接続できないときは、原因と次の行動が出る</h2>
+          <div class="screen-guide">
+            <figure class="screen-shot">
+              <a class="shot-link" href="assets/mihariban/screens/05-problem.png" target="_blank" rel="noopener">
+                <img src="assets/mihariban/screens/05-problem.png" width="880" height="680" alt="カメラに接続できない原因と対処を知らせる画面" loading="lazy">
+              </a>
+              <figcaption>認証、時計、ONVIF、通信など、原因の種類に合わせて案内します。</figcaption>
+            </figure>
+            <ol class="screen-key">
+              <li>赤い見出しで、どの段階で止まったかを確認します。</li>
+              <li>白い欄の対処を上から順に確認します。</li>
+              <li>自動探索に応答しないカメラは「IPアドレスを指定して追加する」へ進めます。</li>
+            </ol>
+          </div>
+          <p>詳しい切り分けは<a href="mihariban-help.html#camera-not-found">「カメラが見つからない」</a>にまとめています。</p>
+        </section>
+
+        <section id="manual-add">
+          <p class="section-kicker">Manual route</p>
+          <h2>自動で見つからないカメラをIPアドレスから追加する</h2>
+          <div class="screen-guide">
+            <figure class="screen-shot">
+              <a class="shot-link" href="assets/mihariban/screens/06-manual-ip.png" target="_blank" rel="noopener">
+                <img src="assets/mihariban/screens/06-manual-ip.png" width="880" height="680" alt="自動で見つからないカメラをIPアドレスから追加する画面" loading="lazy">
+              </a>
+              <figcaption>画像では文書用に予約されたIPアドレスを使い、実在する接続先は載せていません。</figcaption>
+            </figure>
+            <ol class="screen-key">
+              <li>カメラのIPアドレスを入れます。カメラアプリのデバイス情報やルーターで確認します。</li>
+              <li>カメラ接続用のIDとパスワードを入れます。</li>
+              <li>「さがす」を押すと、見張り番が一般的な映像の取り出し方を順番に試します。</li>
+            </ol>
+          </div>
+
+          <div class="shot-gallery">
+            <figure class="screen-shot">
+              <a class="shot-link" href="assets/mihariban/screens/07-stream-candidates.png" target="_blank" rel="noopener">
+                <img src="assets/mihariban/screens/07-stream-candidates.png" width="880" height="680" alt="IP指定で見つかった映像候補を選ぶ画面" loading="lazy">
+              </a>
+              <figcaption>見つかった映像候補。H.264の候補を選びます。</figcaption>
+            </figure>
+            <figure class="screen-shot">
+              <a class="shot-link" href="assets/mihariban/screens/08-manual-confirming.png" target="_blank" rel="noopener">
+                <img src="assets/mihariban/screens/08-manual-confirming.png" width="880" height="680" alt="手動で選んだ映像を監視に使う前の確認画面" loading="lazy">
+              </a>
+              <figcaption>録画に使う解像度・形式・映像パスを最後に確認します。</figcaption>
+            </figure>
+          </div>
+          <aside class="callout warning">
+            IP指定で追加したカメラは、後から画質を変更できない場合があります。変更するときはカメラを追加し直します。
+          </aside>
+        </section>
+
+        <section id="finish">
+          <p class="section-kicker">Ready</p>
+          <h2>映像が表示されたら設定完了</h2>
+          <p>
+            監視画面が開き、状態が「監視中」になれば初回設定は完了です。
+            初回だけ、デスクトップアイコンとWindows起動時の自動開始を確認します。後から設定画面で変更できます。
+          </p>
+          <div class="manual-next">
+            <a class="btn btn-line" href="project-mihariban.html">← 製品概要</a>
+            <a class="btn btn-primary" href="mihariban-use.html">次へ：毎日の使い方 →</a>
+          </div>
+        </section>
+      </div>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <span>© <span id="year"></span> Build Log</span>
+  <span>見張り番 オンライン説明書</span>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

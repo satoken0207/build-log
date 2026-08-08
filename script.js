@@ -9,7 +9,13 @@ const toggleLabel = document.getElementById("themeToggleLabel");
 
 function applyTheme(theme) {
   root.setAttribute("data-theme", theme);
-  if (toggle) toggle.setAttribute("aria-pressed", theme === "soft" ? "true" : "false");
+  if (toggle) {
+    toggle.setAttribute("aria-pressed", theme === "soft" ? "true" : "false");
+    toggle.setAttribute(
+      "aria-label",
+      `配色を切り替える（現在：${theme === "soft" ? "やわらか" : "ポップ"}）`,
+    );
+  }
   if (toggleLabel) toggleLabel.textContent = theme === "soft" ? "soft" : "pop";
   document.dispatchEvent(new CustomEvent("themechange", { detail: { theme } }));
 }
