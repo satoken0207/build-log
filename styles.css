@@ -649,17 +649,60 @@ main {
 }
 
 .detail-visual {
-  height: clamp(180px, 30vw, 320px);
-  border: 1px dashed var(--line-strong);
+  margin: 4px 0 8px;
+  border: 1px solid var(--line-strong);
   border-radius: var(--radius);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-display);
-  font-size: 0.78rem;
-  letter-spacing: 0.04em;
-  color: var(--ink-faint);
   background: var(--panel);
+  overflow: hidden;
+  box-shadow: 0 16px 40px -26px rgba(25, 20, 65, 0.55);
+}
+
+.detail-product-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1581 / 995;
+  object-fit: cover;
+}
+
+.detail-product-shot figcaption {
+  padding: 10px 14px 12px;
+  border-top: 1px solid var(--line);
+  font-size: 0.72rem;
+  color: var(--ink-faint);
+}
+
+.detail-proof {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: 12px 0 20px;
+}
+
+.detail-proof div {
+  min-width: 0;
+  padding: 16px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--panel);
+}
+
+.detail-proof strong,
+.detail-proof span {
+  display: block;
+}
+
+.detail-proof strong {
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 2.2vw, 1.35rem);
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.detail-proof span {
+  margin-top: 4px;
+  font-size: 0.68rem;
+  color: var(--ink-faint);
 }
 
 .detail-body { display: flex; flex-direction: column; gap: 14px; }
@@ -766,4 +809,5 @@ main {
   .section { padding: 64px 0; }
   .scope { height: 64px; }
   .detail { padding: 56px 0 64px; }
+  .detail-proof { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
