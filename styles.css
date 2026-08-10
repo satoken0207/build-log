@@ -788,6 +788,11 @@ main {
   gap: 12px;
   margin: 10px 0 22px;
 }
+/* 札が奇数のとき、最後の1枚だけ右が空いて未完成に見える。
+   横いっぱいに置いて、空きではなく強調に見せる。 */
+.feature-grid > .feature-card-wide {
+  grid-column: 1 / -1;
+}
 .guide-card,
 .feature-card {
   padding: 20px;
