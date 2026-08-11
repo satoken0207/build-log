@@ -1017,7 +1017,10 @@ main {
 .manual-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 620px;
+  /* 枠は 581px（PC・目次のある頁）。620 だと 39px はみ出して、
+     どの表にも横スクロールが出ていた。520 なら PC で収まり、
+     スマホでは従来どおり table-wrap の中でスクロールする。 */
+  min-width: 520px;
   font-size: 0.86rem;
 }
 .manual-table caption {

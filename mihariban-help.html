@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600&family=Public+Sans:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=076d274e">
+<link rel="stylesheet" href="styles.css?v=5e7855d5">
 </head>
 <body>
 
@@ -76,21 +76,42 @@
       <div class="manual-copy">
         <section id="requirements">
           <p class="section-kicker">Before purchase</p>
-          <h2>購入前に4つを確認</h2>
+          <h2>購入前に確認すること</h2>
+          <p>条件は<strong>パソコン側</strong>と<strong>カメラ側</strong>に分かれます。どちらも満たす必要があります。</p>
+
+          <h3>1. パソコン（Windows）の条件</h3>
           <div class="table-wrap">
             <table class="manual-table">
-              <caption>動作条件</caption>
+              <caption>パソコン側の動作条件</caption>
               <thead><tr><th scope="col">項目</th><th scope="col">必要な条件</th><th scope="col">確認方法</th></tr></thead>
               <tbody>
-                <tr><th scope="row">Windows</th><td>Windows 10 バージョン1809以降、またはWindows 11。64bit。</td><td>設定 → システム → バージョン情報。</td></tr>
+                <tr><th scope="row">OS</th><td>Windows 10 バージョン1809以降、またはWindows 11。<strong>64bit</strong>。</td><td>設定 → システム → バージョン情報。</td></tr>
                 <tr><th scope="row">画面</th><td>1280×720以上を推奨。</td><td>設定 → システム → ディスプレイ。</td></tr>
-                <tr><th scope="row">カメラ</th><td>ONVIF対応、H.264で映像を送れること。</td><td>メーカー仕様と試用版の接続画面。</td></tr>
-                <tr><th scope="row">ネットワーク</th><td>パソコンとカメラが同じ家庭内LANにいること。</td><td>ゲストWi‑FiとVPNを避けて試す。</td></tr>
-                <tr><th scope="row">空き容量</th><td>アプリ本体は約60MB。別に録画容量が必要。</td><td>静かな1台で30日約4GBから、動きが多いと約42GBの実測例。</td></tr>
+                <tr><th scope="row">空き容量</th><td>アプリ本体は約60MB。<strong>別に録画の保存容量</strong>が必要。</td><td>静かな1台で30日約4GBから、動きが多いと約42GBの実測例。</td></tr>
+                <tr><th scope="row">ランタイム</th><td>追加インストールは<strong>不要</strong>。ZIPを展開して起動します。</td><td>.NETやコーデックを別途入れる必要はありません。</td></tr>
+                <tr><th scope="row">ネットワーク</th><td>カメラと<strong>同じ家庭内LAN</strong>にいること。</td><td>ゲストWi‑Fi、VPN、ネットワーク分離を避けて試す。</td></tr>
               </tbody>
             </table>
           </div>
-          <p>ZIPを展開して起動するため、.NETの追加インストールは不要です。</p>
+
+          <h3>2. カメラの条件</h3>
+          <div class="table-wrap">
+            <table class="manual-table">
+              <caption>カメラ側の動作条件</caption>
+              <thead><tr><th scope="col">項目</th><th scope="col">必要な条件</th><th scope="col">確認方法</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">種類</th><td><strong>ネットワークカメラ（IPカメラ）</strong>。USB接続のWebカメラは対象外です。</td><td>LANケーブルまたはWi‑Fiでネットワークにつながる製品。</td></tr>
+                <tr><th scope="row">規格</th><td><strong>ONVIF</strong>に対応していること。当ソフトはONVIFのMedia1（GetProfiles／GetStreamUri）で映像を取り出します。</td><td>メーカー仕様の記載と、試用版の接続画面。</td></tr>
+                <tr><th scope="row">映像方式</th><td><strong>H.264</strong>で送れること。<strong>H.265（HEVC）専用の機種は使えません。</strong></td><td>カメラ設定で圧縮方式をH.264へ変更できるか。項目が無ければH.265専用です。</td></tr>
+                <tr><th scope="row">ONVIFの設定</th><td>機種によっては、カメラ側で<strong>ONVIFを有効化</strong>し、<strong>ONVIF用のID・パスワード</strong>を作る必要があります。</td><td>カメラのアプリや設定画面（スマホアプリのログインとは別のことがあります）。</td></tr>
+                <tr><th scope="row">音声（任意）</th><td>録音したい場合のみ、カメラが音声を送れること。初期設定では音声は切です。</td><td>音声非対応のカメラでは、入にしても録音されません。</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <aside class="callout">
+            <strong>「ONVIF対応」と書いてあっても、実装はメーカーごとに違います。</strong>
+            確認できているのは下の1機種だけです。公開後は30日間の試用で、お使いのカメラで映像表示と録画まで確かめてください。
+          </aside>
         </section>
 
         <section id="compatibility">
