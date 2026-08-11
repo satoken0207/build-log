@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ja" data-theme="pop">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>写真変換 — Build Log</title>
+<meta name="description" content="iPhoneのHEICも一括変換。EXIFや向きを保ったままJPEG/PNG/WebPなどに変換するツール。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='10' fill='%23ff2fa0'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#b98ee8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600&family=Public+Sans:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">本文へスキップ</a>
+<div class="ambient" aria-hidden="true"></div>
+<div class="scan-overlay" aria-hidden="true"></div>
+
+<aside class="rail">
+  <a class="rail-mark" href="/">
+    <span class="rail-mark-line">BUILD</span>
+    <span class="rail-mark-line">LOG</span>
+  </a>
+
+  <nav class="rail-nav" aria-label="ナビゲーション">
+    <a href="/#projects"><span class="tab-label">back</span></a>
+  </nav>
+
+  <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false">
+    <span class="theme-toggle-track" aria-hidden="true"><span class="theme-toggle-thumb"></span></span>
+    <span class="theme-toggle-label" id="themeToggleLabel">pop</span>
+  </button>
+
+  <div class="rail-foot">
+    <span>status: online</span>
+  </div>
+</aside>
+
+<main id="main">
+  <article class="detail">
+    <p class="detail-breadcrumb"><a href="/#projects">Projects</a> / 写真変換</p>
+
+    <div class="detail-top">
+      <span class="specimen-tag">Python · Desktop</span>
+      <span class="stamp stamp-live">LIVE</span>
+    </div>
+
+    <h1>写真変換</h1>
+    <p class="detail-lead">
+      iPhoneのHEICが開けない、送っても相手が見られない——を解決する、
+      ドラッグ&amp;ドロップの一括変換ツール。
+    </p>
+
+    <div class="detail-visual has-shot">
+      <img src="docs/photoconv-gui.png" alt="写真変換ツールの画面。ドラッグ&ドロップ欄、出力形式や品質の設定、変換実行ボタンが並んでいる" width="822" height="792" loading="lazy">
+    </div>
+
+    <div class="detail-body">
+      <p>
+        写真やフォルダを画面に放り込んで、形式を選んで実行するだけ。サブフォルダの中まで一括で変換する。
+        入力はJPEG / PNG / HEIC / HEIF / WebP / AVIF / TIFF / BMP / GIFほか、
+        出力はJPEG / PNG / WebP / AVIF / HEIC / TIFF / BMP / GIF / PDFに対応。
+      </p>
+      <p>
+        HEICの読み書きに必要なコーデックを本体に同梱しているので、Windows側に何も追加しなくても変換できる
+        (標準機能でHEICを開こうとすると、本来はMicrosoft Storeで「HEIF画像拡張機能」と
+        有料の「HEVCビデオ拡張機能」が別途必要になる)。
+      </p>
+      <p>
+        スマホの写真に埋め込まれた「向き」の情報を、変換時に実際の回転として反映するので、
+        変換後に写真が横倒しにならない。撮影日時・カメラ機種・カラープロファイルも保ったまま変換し、
+        更新日時も引き継ぐので写真アプリでの並び順も崩れない。逆にWebに公開する前に
+        位置情報などを消したい場合は、チェックを外すだけで全部取り除ける。
+      </p>
+      <p>
+        変換は必ず新しいファイルとして作られ、元の写真には触らない。出力先が同じ名前になる場合は
+        自動で別名にして上書きを防ぐ。リサイズも長辺・幅・高さ・倍率のいずれかで同時に指定でき、
+        長辺指定なら小さい写真を無理に引き伸ばさない。
+      </p>
+      <p>
+        使い方は<code>setup.bat</code>を一度実行してから<code>写真変換.bat</code>を開き、
+        写真をドラッグ&amp;ドロップして形式を選ぶだけ。コマンドラインからも同じ処理を呼べるので、
+        定期実行やバッチ処理にも組み込める。
+      </p>
+      <p>
+        実測では、iPhoneの48メガピクセル写真(5712×4284)3枚をJPEGへ変換して1.6秒
+        (Intel Core i5-10500T・メモリ11.8GB・GPUなし)。
+      </p>
+      <p>
+        補足として、HEICはJPEGより圧縮効率が高いため、同じ画質ならJPEGの方が容量は増える
+        (実測で1.8MBの写真が2.7MBに)。容量を抑えたいときは品質を80前後に下げるか、
+        長辺1920〜2560pxにリサイズするか、互換性より容量を優先できるならWebPを選ぶとよい。
+      </p>
+    </div>
+
+    <dl class="specimen-meta detail-meta">
+      <div><dt>Stack</dt><dd>Python / Pillow</dd></div>
+      <div><dt>Since</dt><dd>2026</dd></div>
+    </dl>
+
+    <div class="hero-actions">
+      <a class="btn btn-line" href="/#projects">← Projects に戻る</a>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <span>© <span id="year"></span> Build Log</span>
+  <span>個人の趣味プロジェクトです</span>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
