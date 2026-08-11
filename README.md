@@ -21,8 +21,13 @@ python -m http.server 8080
 
 ## 構成
 
-- `index.html` — マークアップ
-- `styles.css` — デザイントークン・スタイル（ライト/ダーク両対応）
+- `index.html` — ポートフォリオのトップ
+- `project-mihariban.html` — 見張り番の製品紹介・開発記録
+- `mihariban-start.html` — 初回設定の画面ガイド
+- `mihariban-use.html` — 監視・検知・設定の画面ガイド
+- `mihariban-recordings.html` — 録画の再生・保存ガイド
+- `mihariban-help.html` — 対応条件・トラブルシューティング
+- `styles.css` — デザイントークン・スタイル（pop / softの2配色）
 - `script.js` — 年表示・テーマ切り替えの補助
 
 Projects セクションの内容（プロジェクト名・説明・リンク）は `index.html` 内の

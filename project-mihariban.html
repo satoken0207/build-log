@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>見張り番 — Build Log</title>
-<meta name="description" content="ONVIF対応の防犯カメラを、説明書なしで繋げるWindowsアプリ。映像を見ながら動体検知で録画する。外部ランタイム不要の単一実行ファイル。">
+<title>見張り番｜製品紹介・使い方・開発記録 — Build Log</title>
+<meta name="description" content="ONVIF対応カメラの映像表示、動体検知録画、見返しまでをWindowsで行う『見張り番』。公開準備中の製品概要、画面、使い方、対応条件、開発記録をまとめています。">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='10' fill='%23ff2fa0'/%3E%3C/svg%3E">
 <meta name="theme-color" content="#b98ee8">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600&family=Public+Sans:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css?v=27b36337">
 </head>
 <body>
 
@@ -38,9 +38,22 @@
   </div>
 </aside>
 
-<main id="main">
+<main id="main" tabindex="-1">
   <article class="detail">
-    <p class="detail-breadcrumb"><a href="/#projects">Projects</a> / 見張り番</p>
+    <nav class="detail-breadcrumb" aria-label="パンくず">
+      <ol class="breadcrumb-list">
+        <li><a href="/#projects">Projects</a></li>
+        <li aria-current="page">見張り番</li>
+      </ol>
+    </nav>
+
+    <nav class="product-nav" aria-label="見張り番のページ">
+      <a href="project-mihariban.html" aria-current="page">製品概要</a>
+      <a href="mihariban-start.html">はじめ方</a>
+      <a href="mihariban-use.html">使い方</a>
+      <a href="mihariban-recordings.html">録画を見る</a>
+      <a href="mihariban-help.html">困ったとき</a>
+    </nav>
 
     <div class="detail-top">
       <span class="specimen-tag">Windows · C#/.NET</span>
@@ -49,13 +62,29 @@
 
     <h1>見張り番</h1>
     <p class="detail-lead">
-      ONVIF対応の防犯カメラを、説明書なしで繋げるWindowsアプリ。
-      映像を見ながら、動きがあったときだけ録画する。
+      ネットワークカメラを、見る・録る・見返す。
+      通常は自動探索でカメラを選び、見つからない場合だけIPアドレスを指定して追加できるWindowsアプリです。
     </p>
 
-    <div class="detail-visual" aria-hidden="true"><span>screenshot placeholder</span></div>
+    <p class="status-line">
+      <span>公開準備中</span>
+      <span>最終更新 2026-08-09</span>
+      <span>ダウンロード・販売はまだ開始していません</span>
+    </p>
+
+    <div class="hero-actions" aria-label="説明書を開く">
+      <a class="btn btn-primary" href="mihariban-start.html">画面で見る はじめ方</a>
+      <a class="btn btn-line" href="mihariban-help.html#requirements">購入前に対応条件を確認</a>
+    </div>
+
+    <figure class="detail-visual detail-product-shot">
+      <img src="assets/mihariban/screens/09-monitor.png" width="1500" height="950" alt="見張り番の現行監視画面を再現した説明図。公開用のカメラ映像と、録画、設定、検知しない場所などの操作ボタンが並ぶ。">
+      <figcaption>現行画面の配置・文言を、公開用データで再現した説明図です。アプリから撮影したスクリーンショットではありません。実在するカメラ、住所、IP、アカウントは含みません。</figcaption>
+    </figure>
 
     <div class="detail-body">
+      <p class="section-kicker">Product overview</p>
+      <h2 id="overview">必要な場面だけを、あとから探せる</h2>
       <p>
         市販の防犯カメラの多くはONVIFという共通規格に対応している。にもかかわらず、
         パソコンのソフトから繋ごうとすると高い確率で詰まる。IPアドレスの調べ方、
@@ -69,7 +98,81 @@
         動きがあったときだけ録画する。
       </p>
 
-      <h2>繋がるまでを設計する</h2>
+      <dl class="detail-proof" aria-label="現在の検証実績">
+        <div><dt><strong>2560×1440</strong></dt><dd>実機1機種で確認</dd></div>
+        <div><dt><strong>25.00 fps</strong></dt><dd>通常条件の実測25本</dd></div>
+        <div><dt><strong>1,000件超</strong></dt><dd>自動試験を運用</dd></div>
+        <div><dt><strong>173</strong></dt><dd>出荷受入基準を定義</dd></div>
+      </dl>
+
+      <div class="feature-grid" aria-label="見張り番の主な機能">
+        <div class="feature-card">
+          <strong>自動でカメラを探す</strong>
+          <span>同じネットワーク上を検索し、メーカー名と型番で候補を表示します。</span>
+        </div>
+        <div class="feature-card">
+          <strong>動きの前から録画する</strong>
+          <span>動きを見つけた少し前から記録し、入ってくる場面を残します。</span>
+        </div>
+        <div class="feature-card">
+          <strong>録画をその場で見返す</strong>
+          <span>日付ごとの一覧から再生し、必要な録画は日時入りの別ファイルへ書き出せます。</span>
+        </div>
+        <div class="feature-card">
+          <strong>録りすぎを調整する</strong>
+          <span>検知しない場所、感度、曜日・時間帯をカメラごとに設定できます。</span>
+        </div>
+        <div class="feature-card feature-card-wide">
+          <strong>保存容量を自動で管理する</strong>
+          <span>ドライブの空きが少なくなると、古い録画から順に整理して、録画が止まらないようにします。
+            残す量は、日数・録画の合計の大きさ・残す空きの3つで決められます。
+            消したくない録画は別の場所へコピーしてください。自動の整理は元に戻せません。</span>
+        </div>
+      </div>
+
+      <aside class="callout warning">
+        <strong>購入前に必ず実機でお試しください。</strong>
+        Windows 10 1809以降またはWindows 11の64bit、同一LAN、ONVIF、H.264が必要です。
+        H.265専用カメラとUSBカメラには対応していません。現在、接続から録画まで確認済みなのは
+        TP-Link Tapo C520WSの1機種です。公開後は30日間、全機能を無料で試せる予定です。
+      </aside>
+
+      <h2 id="manual">画面を見ながら進める説明書</h2>
+      <p>
+        現行画面の配置・文言に準拠した説明図を、工程ごとに掲載しました。画像を押すと原寸で確認できます。
+        IPアドレス、ID、パスワード、ライセンスキー、私的なカメラ映像は使わず、
+        すべて公開用のデモ状態で再現しています。アプリから撮影したスクリーンショットではありません。
+      </p>
+      <div class="guide-links">
+        <a class="guide-card" href="mihariban-start.html">
+          <strong>1. はじめ方</strong>
+          <span>ZIPの展開、自動探索、接続用アカウント、画質選択、IP指定追加。</span>
+        </a>
+        <a class="guide-card" href="mihariban-use.html">
+          <strong>2. 使い方</strong>
+          <span>監視画面、検知調整、除外範囲、時間帯、警報音、音声録画。</span>
+        </a>
+        <a class="guide-card" href="mihariban-recordings.html">
+          <strong>3. 録画を見る</strong>
+          <span>再生、状態の印、日時入り書き出し、削除、保存先と自動整理。</span>
+        </a>
+        <a class="guide-card" href="mihariban-help.html">
+          <strong>4. 困ったとき</strong>
+          <span>対応条件、見つからない・映らない・録画されない場合、安全と問い合わせ。</span>
+        </a>
+      </div>
+
+      <h2 id="quick-start">使い始めるまでの4段階</h2>
+      <ol class="steps">
+        <li><strong>ZIPを「すべて展開」する。</strong> 中から直接起動せず、書き込み可能な場所へ置きます。</li>
+        <li><strong>カメラを選ぶ。</strong> 起動すると自動探索が始まり、メーカー名と型番が表示されます。</li>
+        <li><strong>カメラ接続用のIDとパスワードを入れる。</strong> スマートフォンアプリのログインとは別の場合があります。</li>
+        <li><strong>録画に使う画質を選ぶ。</strong> 映像が表示されたら監視が始まります。</li>
+      </ol>
+
+      <p class="section-divider">DEVELOPMENT NOTES — ここからは、接続・録画品質・復旧性をどう作り込んだかの開発記録です。</p>
+
+      <h2 id="connection-design">繋がるまでを設計する</h2>
       <p>
         起動と同時にWS-Discoveryでカメラを探し、見つかったものをメーカー名と型番で一覧に出す。
         利用者に何も押させないところから始める。IPアドレスで並べても、
@@ -88,10 +191,10 @@
         実機で確かめた事実だけを足していく方針にしている。
       </p>
 
-      <h2>ONVIFが使えないカメラのための逃げ道</h2>
+      <h2>ONVIF自動探索に応答しない場合の手動経路</h2>
       <p>
-        実際に手元の2台目がONVIFを喋らなかった。RTSPだけは生きていたので、
-        そこから映像を取れる導線を用意した。
+        ONVIFに対応していても、自動探索へ応答しないカメラがある。
+        その場合はIPアドレス、ID、パスワードを指定し、RTSPで届くH.264映像の候補を探す手動経路を用意した。
       </p>
       <p>
         ただし「RTSPのURLを入力してください」とは聞かない。一般の購入者はURLの形を知らないし、
@@ -134,10 +237,27 @@
         実機の手前に中継を挟んで通信だけを止める試験で確認している。
       </p>
 
+      <h2>空白やワープを「隠さず、増やさず」直す</h2>
+      <p>
+        録画の空白や時間の飛びを調べると、単にフレームを詰めればよいわけではなかった。
+        カメラの時計が突然飛ぶ場合と、本当に通信が途切れた場合は、見た目が似ていても意味が違う。
+        本物の欠落まで滑らかに見せると、防犯映像として残すべき事実を消してしまう。
+      </p>
+      <p>
+        そこで通常はカメラのRTP時刻を使い、実測で確認した異常ジャンプだけを受信間隔へ置き換える。
+        パケット欠落や停止は欠落として残す。H.264の分割フレームが途中で欠けたときは、
+        壊れた映像を無理に組み立てず、次のIDRから復旧する。音声も同じ時間軸に揃えた。
+      </p>
+      <p>
+        補正前のRTP時刻と受信時刻は付随記録へ残す。
+        見た目を整えるだけでなく、あとから「なぜこの時刻になったか」を追える作りにしている。
+      </p>
+
       <h2>録画の作り</h2>
       <p>
-        動体検知で録画する。検知の2秒前から記録が始まるので、
-        人が画面に入ってくるところから残る。動きが止まって5秒で区切り、
+        動体検知で録画する。通常は検知のおおよそ2秒前から記録が始まるので、
+        人が画面に入ってくるところから残る。接続直後や通信の状態によって、遡れる時間が短くなる場合がある。
+        動きが止まって5秒で区切り、
         長く続く場合も5分で分割する。
       </p>
       <p>
@@ -148,11 +268,11 @@
         音源ファイルは同梱せず、波形をその場で生成している。
       </p>
       <p>
-        画質は「解像度」や「ビットレート」ではなく、
-        「軽く録る」「きれいに録る(パソコンの負担が大きくなります)」という言葉で選ぶ。
-        後者はカメラの高画質な映像を受け取って縮小してから記録する。
-        同じ画素数でも、カメラが低画質側で圧縮した映像をそのまま使うより細部が残る。
-        負担が増えることを選択肢の文言そのものに書いてある。
+        高画質側は、カメラから届いたH.264を再圧縮せずに保存する。
+        実機では2560×1440、249コマ / 9.96秒 = 25.00fpsで、取りこぼし0を確認した。
+        ナンバーの細部も録画から読み取れるところまで改善している。
+        画質の選択肢は「軽く録る」「きれいに録る（パソコンの負担が大きくなります）」と、
+        効果と代償がその場で分かる言葉にした。
       </p>
 
       <h2>外部ランタイムを持たない</h2>
@@ -164,8 +284,8 @@
         H.264のライセンスをOS側に寄せられることを優先した。
       </p>
       <p>
-        配布は.NET 10のセルフコンテインド単一実行ファイル。
-        利用者が.NETを入れる必要はなく、展開して起動するだけで動く。
+        配布は.NET 10のセルフコンテインド構成。
+        利用者が.NETを入れる必要はなく、ZIPを「すべて展開」して起動できる。
       </p>
 
       <ul class="tag-list">
@@ -177,26 +297,31 @@
         <li>DPAPI</li>
       </ul>
 
-      <h2>今の状態</h2>
+      <h2 id="status">今の状態</h2>
       <p>
-        バージョン0.1.0。テストは482件が通っている。
-        自動再接続、無音になった接続の検出、H.265カメラへの案内は実機で確認済み。
+        出荷前の検証中。1,000件を超える自動試験を運用し、
+        2026年8月8日の隔離した記録では1,074件・失敗0だった。
+        そのうち環境が無いと実質的な処理を行わない29件は、確認済みの合格と分けて管理している。
+        現在のソースはこの記録より先へ進んでいるため、公開前に同じ条件で取り直す。
+        自動再接続、無音になった接続の検出、日付をまたぐ録画、
+        2560×1440 / 25.00fpsの無加工保存は実機で確認済み。
       </p>
       <p>
         一方で、<strong>実機で動作を確認できているカメラはまだ1機種だけ</strong>(TP-Link C520WS)。
         2台目はH.265専用機だったため、動作確認ではなく
         「対応できないカメラの実例」として設計に反映される結果になった。
         URL形式の一覧には他社の書き方も入れてあるが、そちらは未検証。
-        録画の画質も、目標にしている水準にはまだ届いていない。
+        対応機種を広く見せるより、確かめた範囲を正直に出すことを優先している。
       </p>
       <p>
         国内のソフト配布サイトVectorでの公開を予定していて、
         使用許諾や試用期間まわりの実装は済んでいる。
-        出荷判定は課題一覧と118項目の受入テストで管理していて、
+        出荷判定は課題一覧と173項目の受入基準で管理していて、
         「ビルドが通ることとテストが通ることは、機能が呼ばれていることを保証しない」
         という反省から作った文書になっている。
         実際、実装もテストも完成しているのにアプリから一度も呼ばれていない機能が
-        まとめて見つかったことがあった。
+        まとめて見つかったことがあった。正式な販売ZIP、24時間の正規soak、
+        人の目・耳で行う受入、別PCでの確認を終えてから配布する。
       </p>
     </div>
 
@@ -206,6 +331,8 @@
     </dl>
 
     <div class="hero-actions">
+      <a class="btn btn-primary" href="mihariban-start.html">はじめ方へ進む →</a>
+      <a class="btn btn-line" href="mihariban-help.html#requirements">対応条件を見る</a>
       <a class="btn btn-line" href="/#projects">← Projects に戻る</a>
     </div>
   </article>
@@ -216,6 +343,6 @@
   <span>個人の趣味プロジェクトです</span>
 </footer>
 
-<script src="script.js"></script>
+<script src="script.js?v=f5ba90f4"></script>
 </body>
 </html>

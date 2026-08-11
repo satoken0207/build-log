@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="ja" data-theme="pop">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>見張り番 使い方｜監視・検知・時間帯・音声 — Build Log</title>
+<meta name="description" content="見張り番の監視画面、検知の様子、検知しない場所、感度、監視時間帯、警報音、音声録画を、現行画面に準拠した説明図で案内します。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='10' fill='%23ff2fa0'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#b98ee8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600&family=Public+Sans:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=27b36337">
+</head>
+<body>
+
+<a class="skip-link" href="#main">本文へスキップ</a>
+<div class="ambient" aria-hidden="true"></div>
+<div class="scan-overlay" aria-hidden="true"></div>
+
+<aside class="rail">
+  <a class="rail-mark" href="/"><span class="rail-mark-line">BUILD</span><span class="rail-mark-line">LOG</span></a>
+  <nav class="rail-nav" aria-label="ナビゲーション"><a href="project-mihariban.html"><span class="tab-label">product</span></a></nav>
+  <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false">
+    <span class="theme-toggle-track" aria-hidden="true"><span class="theme-toggle-thumb"></span></span>
+    <span class="theme-toggle-label" id="themeToggleLabel">pop</span>
+  </button>
+  <div class="rail-foot"><span>manual: use</span></div>
+</aside>
+
+<main id="main" tabindex="-1">
+  <article class="detail manual-page">
+    <nav class="detail-breadcrumb" aria-label="パンくず">
+      <ol class="breadcrumb-list">
+        <li><a href="/#projects">Projects</a></li>
+        <li><a href="project-mihariban.html">見張り番</a></li>
+        <li aria-current="page">使い方</li>
+      </ol>
+    </nav>
+
+    <nav class="product-nav" aria-label="見張り番のページ">
+      <a href="project-mihariban.html">製品概要</a>
+      <a href="mihariban-start.html">はじめ方</a>
+      <a href="mihariban-use.html" aria-current="page">使い方</a>
+      <a href="mihariban-recordings.html">録画を見る</a>
+      <a href="mihariban-help.html">困ったとき</a>
+    </nav>
+
+    <div class="detail-top"><span class="specimen-tag">Manual 02</span><span class="stamp stamp-wip">公開準備中</span></div>
+    <h1>毎日の使い方</h1>
+    <p class="detail-lead">監視画面の見方から、録りすぎ・見逃しを減らす調整、曜日と時間、警報音、音声録画まで。</p>
+    <p class="status-line"><span>現行画面の配置・文言を再現した説明図</span><span>アプリから撮影したスクリーンショットではありません</span><span>公開用デモ映像を使用</span></p>
+
+    <div class="manual-layout">
+      <nav class="manual-toc" aria-label="このページの目次">
+        <strong>このページの目次</strong>
+        <ol>
+          <li><a href="#monitor">監視画面</a></li>
+          <li><a href="#status">状態表示</a></li>
+          <li><a href="#detection">検知を調整</a></li>
+          <li><a href="#exclusion">検知しない場所</a></li>
+          <li><a href="#settings">設定画面</a></li>
+          <li><a href="#schedule">曜日と時間帯</a></li>
+          <li><a href="#alarm">警報音</a></li>
+          <li><a href="#audio">音声録画</a></li>
+        </ol>
+      </nav>
+
+      <div class="manual-copy">
+        <section id="monitor">
+          <p class="section-kicker">Main screen</p>
+          <h2>監視画面は、見る・止める・調整する入口</h2>
+          <div class="screen-guide">
+            <figure class="screen-shot">
+              <a class="shot-link" href="assets/mihariban/screens/09-monitor.png" target="_blank" rel="noopener">
+                <img src="assets/mihariban/screens/09-monitor.png" width="1500" height="950" alt="見張り番の監視画面にライブ映像と操作ボタンが並んでいる" loading="eager">
+              </a>
+              <figcaption>毎日使う中心画面。画像を押すと原寸で確認できます。</figcaption>
+            </figure>
+            <ol class="screen-key">
+              <li><strong>録画を見る</strong> — 日付別の録画一覧を別画面で開きます。監視は止まりません。</li>
+              <li><strong>ライセンス／このアプリについて</strong> — 試用状態、版、問い合わせ先を確認します。</li>
+              <li><strong>映像と状態</strong> — 録画中、音声、カメラ名、接続状態を映像上に表示します。</li>
+              <li><strong>カメラごとの操作</strong> — 停止、設定、検知しない場所、検知の様子、録画フォルダを開きます。</li>
+            </ol>
+          </div>
+          <aside class="callout warning">
+            <strong>「停止中」は録画されません。</strong>
+            停止はカメラごとに効きます。アプリを通常どおり起動し直すと、登録済みカメラの監視は再開します。
+          </aside>
+        </section>
+
+        <section id="status">
+          <p class="section-kicker">Status</p>
+          <h2>日本語の状態表示で、どこまで動いているかを見る</h2>
+          <div class="table-wrap">
+            <table class="manual-table">
+              <caption>監視画面に出る主な状態</caption>
+              <thead><tr><th scope="col">表示</th><th scope="col">意味</th><th scope="col">次に確認すること</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">監視中</th><td>映像を受信し、動きを見ています。</td><td>動いたときに「録画中」へ変わるか。</td></tr>
+                <tr><th scope="row">録画中</th><td>動きを検知し、録画ファイルへ書き込んでいます。</td><td>録画が終わると一覧から再生できます。</td></tr>
+                <tr><th scope="row">監視時間外</th><td>映像は表示しますが、検知と録画は止まっています。</td><td>曜日・時間帯の設定。</td></tr>
+                <tr><th scope="row">停止中</th><td>そのカメラの監視を手動で止めています。</td><td>「監視を開始」を押します。</td></tr>
+                <tr><th scope="row">接続できません</th><td>カメラの映像が届いていません。</td><td>電源、同一LAN、スマホ同時閲覧、ID・パスワード。</td></tr>
+                <tr><th scope="row">録画を保存できません</th><td>映像は見えても、保存先へ書き込めません。</td><td>保存先、空き容量、権限。</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="detection">
+          <p class="section-kicker">Tune detection</p>
+          <h2>「検知の様子」で、何に反応したかを見ながら調整する</h2>
+          <div class="screen-guide">
+            <figure class="screen-shot">
+              <a class="shot-link" href="assets/mihariban/screens/10-detection.png" target="_blank" rel="noopener">
+                <img src="assets/mihariban/screens/10-detection.png" width="1500" height="950" alt="赤い検知枠と灰色の除外範囲が重なった監視画面" loading="lazy">
+              </a>
+              <figcaption>検知の様子を有効にすると、映像上の反応と感度調整が同時に見えます。</figcaption>
+            </figure>
+            <ol class="screen-key">
+              <li>赤い枠は、現在「動き」として見ている場所です。枠の数は人や車の台数ではありません。</li>
+              <li>灰色の範囲は、検知しない場所です。映像や録画から消えるわけではありません。</li>
+              <li>感度の数字は<strong>大きいほど鈍感</strong>です。標準は10で、屋外で録画が多すぎる場合は少しずつ大きくします。</li>
+              <li>保存前に映像を見て、人が横切ったときに反応するか確認します。</li>
+            </ol>
+          </div>
+
+          <h3>調整はこの順番</h3>
+          <ol class="steps">
+            <li>「検知の様子」を押し、何に赤い枠が付くか確認します。</li>
+            <li>道路、木、時計表示など不要な動きへ「検知しない場所」を設定します。</li>
+            <li>まだ録画が多ければ、感度を10から1段ずつ大きくします。</li>
+            <li>虫など一瞬の動きを減らすなら「動きが続く時間」を少し長くします。</li>
+            <li>半日ほど動かし、件数ではなく録画の中身を見て再調整します。</li>
+          </ol>
+        </section>
+
+        <section id="exclusion">
+          <p class="section-kicker">Exclude areas</p>
+          <h2>道路や木を「検知しない場所」にする</h2>
+          <div class="screen-guide">
+            <figure class="screen-shot">
+              <a class="shot-link" href="assets/mihariban/screens/12-exclusion.png" target="_blank" rel="noopener">
+                <img src="assets/mihariban/screens/12-exclusion.png" width="1263" height="875" alt="道路などをドラッグで囲み動体検知から除外する画面" loading="lazy">
+              </a>
+              <figcaption>この画面では映像が静止します。動かない背景へ範囲を置けます。</figcaption>
+            </figure>
+            <ol class="screen-key">
+              <li>映像上をドラッグして、録画のきっかけにしたくない場所を囲みます。</li>
+              <li>囲った場所を消すときは、その範囲の上で右クリックします。</li>
+              <li>全部やり直す場合は「すべて消す」を押します。</li>
+              <li>「保存して閉じる」で反映します。カメラごとに別の範囲を持ちます。</li>
+            </ol>
+          </div>
+          <aside class="callout warning">
+            <strong>プライバシーマスクではありません。</strong>
+            囲った場所もライブ映像と録画には映ります。隣家など映したくない場所がある場合は、カメラの向きやカメラ側のプライバシー機能を調整してください。
+          </aside>
+        </section>
+
+        <section id="settings">
+          <p class="section-kicker">Settings</p>
+          <h2>縦に長い設定画面を、上から順に見る</h2>
+          <p>設定画面は内容が多いため、縮小して1枚にせず3枚へ分けました。</p>
+
+          <div class="shot-gallery">
+            <figure class="screen-shot">
+              <a class="shot-link" href="assets/mihariban/screens/11-settings-detection.png" target="_blank" rel="noopener">
+                <img src="assets/mihariban/screens/11-settings-detection.png" width="950" height="825" alt="動体検知、録画画質、音声録画を確認する設定画面" loading="lazy">
+              </a>
+              <figcaption>動きが続く時間、録画画質、音声録画。感度は監視画面で調整します。</figcaption>
+            </figure>
+            <figure class="screen-shot">
+              <a class="shot-link" href="assets/mihariban/screens/11-settings-audio-storage.png" target="_blank" rel="noopener">
+                <img src="assets/mihariban/screens/11-settings-audio-storage.png" width="950" height="825" alt="警報音と画面表示を変更する設定画面" loading="lazy">
+              </a>
+              <figcaption>警報音、音量、WAV、カメラ名、保存日数の先頭。容量と最低空き容量は、次の図の「いまの状態」に要約表示されます。</figcaption>
+            </figure>
+            <figure class="screen-shot">
+              <a class="shot-link" href="assets/mihariban/screens/11-settings-schedule-app.png" target="_blank" rel="noopener">
+                <img src="assets/mihariban/screens/11-settings-schedule-app.png" width="950" height="825" alt="録画保存の現在値、監視時間帯、起動方法を確認・変更する設定画面" loading="lazy">
+              </a>
+              <figcaption>保存日数・容量・最低空き容量の「いまの状態」、曜日・時間帯、カメラの探し直し、デスクトップアイコン、自動起動。</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section id="schedule">
+          <p class="section-kicker">Schedule</p>
+          <h2>監視する曜日と時間帯</h2>
+          <ul>
+            <li>初期状態は「いつでも監視する」です。</li>
+            <li>時間帯の外でも映像表示は続き、動体検知と録画だけが止まります。</li>
+            <li>夜22時から翌朝6時のように、日をまたぐ時間も1行で設定できます。</li>
+            <li>「いつでも監視する」を外したまま時間帯を1件も入れなかった場合は、安全側として常時監視になります。</li>
+          </ul>
+        </section>
+
+        <section id="alarm">
+          <p class="section-kicker">Alarm</p>
+          <h2>動きを見つけたときの警報音</h2>
+          <p>警報音は<strong>パソコンのスピーカー</strong>から鳴ります。カメラ本体からは鳴りません。初期状態は「鳴らさない」です。</p>
+          <ul>
+            <li>ビープ、サイレン、または手持ちのWAVファイルを選べます。</li>
+            <li>「鳴らしてみる」で、音と音量を保存前に確認できます。</li>
+            <li>録画が始まったときに1回鳴り、直前に鳴ってから10秒間は続けて鳴りません。</li>
+            <li>独自ファイルはWAVのみです。MP3は選べません。</li>
+          </ul>
+        </section>
+
+        <section id="audio">
+          <p class="section-kicker">Audio</p>
+          <h2>音声録画は初期状態で切</h2>
+          <p>
+            「音声も録る」を入にした後の録画だけに音声が入ります。過去の録画へ後から追加はできません。
+            カメラが音声を送っていない場合は、入にしても録音されません。
+          </p>
+          <aside class="callout warning">
+            <strong>録画の先頭約2秒には音声が入りません。</strong>
+            映像は動きを見つける前までさかのぼれますが、音声はさかのぼらないためです。また、音声を録ってよい場所かを必ず先に確認してください。
+          </aside>
+          <div class="manual-next">
+            <a class="btn btn-line" href="mihariban-start.html">← はじめ方</a>
+            <a class="btn btn-primary" href="mihariban-recordings.html">次へ：録画を見る →</a>
+          </div>
+        </section>
+      </div>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer"><span>© <span id="year"></span> Build Log</span><span>見張り番 オンライン説明書</span></footer>
+<script src="script.js?v=f5ba90f4"></script>
+</body>
+</html>
