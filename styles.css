@@ -1097,6 +1097,14 @@ main {
   letter-spacing: 0.08em;
 }
 
+.devlog-teaser {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  color: var(--ink-faint);
+  font-size: 0.92rem;
+}
+
 /* ---------------------------------------------------------
    Pop theme signature: tilted stickers, glossy chrome.
    Structural overrides live here instead of forcing every
