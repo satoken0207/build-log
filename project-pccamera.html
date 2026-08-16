@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="ja" data-theme="pop">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PC Camera Recorder — Build Log</title>
+<meta name="description" content="PCの内蔵/USBカメラで動きを検知し、その瞬間だけをPC内に自動録画するWindowsアプリ。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='10' fill='%23ff2fa0'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#b98ee8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600&family=Public+Sans:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=ad0e75ae">
+</head>
+<body>
+
+<a class="skip-link" href="#main">本文へスキップ</a>
+<div class="ambient" aria-hidden="true"></div>
+<div class="scan-overlay" aria-hidden="true"></div>
+
+<aside class="rail">
+  <a class="rail-mark" href="/">
+    <span class="rail-mark-line">BUILD</span>
+    <span class="rail-mark-line">LOG</span>
+  </a>
+
+  <nav class="rail-nav" aria-label="ナビゲーション">
+    <a href="/#projects"><span class="tab-label">back</span></a>
+  </nav>
+
+  <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false">
+    <span class="theme-toggle-track" aria-hidden="true"><span class="theme-toggle-thumb"></span></span>
+    <span class="theme-toggle-label" id="themeToggleLabel">pop</span>
+  </button>
+
+  <div class="rail-foot">
+    <span>status: online</span>
+  </div>
+</aside>
+
+<main id="main">
+  <article class="detail">
+    <p class="detail-breadcrumb"><a href="/#projects">Projects</a> / PC Camera Recorder</p>
+
+    <div class="detail-top">
+      <span class="specimen-tag">Windows · C#/.NET</span>
+      <span class="stamp stamp-wip">WIP</span>
+    </div>
+
+    <h1>PC Camera Recorder</h1>
+    <p class="detail-lead">
+      PCのカメラで動きを検知し、その瞬間だけをPC内に自動録画するWindowsアプリ。
+    </p>
+
+    <div class="detail-visual has-shot">
+      <img src="docs/pccamera-overview.webp" alt="PC Camera Recorderの概要図。左にアプリのウィンドウ、右に「動きを検知」「自動録画」「PC内に保存」の3段の流れが並んでいる" width="1440" height="810" loading="lazy">
+    </div>
+
+    <div class="detail-body">
+      <p>
+        留守中の部屋や玄関、ペットの様子を「見ておきたい」だけなのに、専用の防犯カメラを買って設置し、
+        クラウドの月額を払うのは重すぎる。このアプリは、すでに手元にあるPCのカメラをそのまま使う。
+        ノートPCの内蔵カメラでも、USBカメラでもよい。置いて監視を始めるだけで、
+        動きがあった瞬間だけがMP4で残る。
+      </p>
+      <p>
+        録画はそのPCの中にだけ保存される。外部へ送信する経路を持たない。
+      </p>
+      <p>
+        検知の数秒前から残す先行バッファを備えているので、「気づいた時にはもう始まっていた」を防げる。
+        動きが止まってから録画を閉じるまでの秒数、感度3段階、保存先、
+        監視する時間帯(<code>18:00〜08:00</code> のように日をまたぐ指定も可)を曜日つきで指定できる。
+        通知領域に常駐し、アイコンの色で停止中／監視中／録画中が分かる。監視中はPCを自動スリープさせない
+        (画面は消えてよい)。
+      </p>
+      <p>
+        古い録画は日数・合計容量・ドライブ空き容量の3条件で自動削除できるが、
+        ここには安全側の制限を入れてある。消すのはこのアプリが付けた名前のままの録画だけで、
+        利用者が名前を変えた録画や、同じフォルダーにある他のファイルには触らない。
+        「フォルダーが際限なく育たないこと」より「消えて困る物を消さないこと」を優先した結果。
+      </p>
+
+      <h2>実測値</h2>
+      <p>
+        いずれも実機での測定値。丸めていない。
+      </p>
+      <p>
+        <strong>録画性能</strong>(Dell / Windows 11 25H2 build 26200 / 内蔵カメラ / 720p30 / 10分)——
+        フレームレート29.85 fps、フレーム欠落0、CPUは平均1.0%・最大3.3%、メモリ最大160.3 MiB、
+        記録時間の誤差 -0.18%、ビットレート8.96 Mbps(連続録画なら約97.1 GB/日 相当)。
+      </p>
+      <p>
+        <strong>8時間連続稼働</strong>(2026-08-15 10:31〜18:31 / Dell(Windows 11)とNEC(Windows 10 Pro)の2台並行)——
+        録画回数はDell 442本 / NEC 568本(別日8時間の実測)、Large Object Heap最大61 MB(是正前は179 MB)、
+        ワーキングセット最大193 MB、GCによる停止時間は全経過時間の0.06%、例外0件、破損した録画0本。
+      </p>
+      <p>
+        <strong>自動試験</strong>は139件(Debug / Release)＋Store構成140件、Core 46件。3構成すべて失敗0。
+        対応OSはWindows 10 バージョン1809(build 17763)以降。
+      </p>
+
+      <h2>現状の制限・未検証</h2>
+      <p>
+        <strong>この製品はまだ出荷していません。</strong>以下は未解決または未検証。
+      </p>
+      <p>
+        <strong>メモリ関連の不具合が1件、未解決(出荷ブロッカー)。</strong>
+        長時間動かすと、録画1回ごとにOSのハンドルがわずかに残る。Dell(Windows 11)で1録画あたり2.4〜3.2個、
+        8時間で約1,400個増えた回もある。一方NEC(Windows 10)では0.1〜0.2個で、実質発生しない。
+      </p>
+      <p>
+        切り分けの結果、時間ではなく録画の回数に比例すること(66分の録画1本では、むしろ減った)、
+        GCを強制しても回収されないこと(531個溜まった状態で強制回収して、落ちたのは1割未満)、
+        ハードウェアエンコードを切ると消えること(同一機で有効 +2.64個/本 → 無効 -0.38個/本)まで分かっている。
+        ただしまだ確定とはしていない。A/Bの実行順が固定(常に有効→無効)で時間経過との交絡を排除できておらず、
+        実際にどのエンコーダが使われたかも未確認のため、順序を入れ替えた再試験が残っている。
+      </p>
+      <p>
+        <strong>未実装・未検証</strong>——USBカメラの抜き差しからの復帰は未実装。
+        ノートPCの蓋を閉じたときの動作は未対応で、案内も未整備。
+        スクリーンセーバー・画面消灯中の継続は実装したが実機で未検証。
+        Microsoft Store版(Package Identity付き)での試験は未実施。製品名とPackage Identityも未確定。
+      </p>
+
+      <h2>作りかた</h2>
+      <p>
+        C# / .NET 10(<code>net10.0-windows10.0.17763.0</code>)、画面はWPF、通知領域のみWinForms
+        <code>NotifyIcon</code>。映像は WinRT Media(<code>MediaCapture</code> / <code>MediaFrameReader</code> /
+        <code>MediaStreamSource</code> / <code>MediaTranscoder</code>)で扱い、
+        <strong>NV12のまま検知に回してから H.264 へエンコードしてMP4に書く</strong>——
+        検知の手前に色変換を挟まない構成にしている。試験はxUnit。
+        配布形態は自己完結の単一exe(.NETのインストール不要)で、Store版はMSIX。
+      </p>
+      <p>
+        姉妹プロジェクトに<a href="project-mihariban">見張り番</a>があるが、あちらはネットワークカメラ用で、
+        こちらはPCのカメラ用。対象が違う。
+      </p>
+      <p>
+        クラウドを使わないのは方針で、録画はそのPCの中だけに残る。
+        なお「防犯カメラの代わり」とは名乗っていない。暗所では映らないし、PCが動いていなければ録れない。
+      </p>
+      <p>
+        上の図はスクリーンショットではなく、公開用のデモ状態を再現したもの。ウィンドウはモックアップで、
+        映像部分に写っている室内と猫は生成画像。実際のカメラ映像ではない。
+      </p>
+    </div>
+
+    <dl class="specimen-meta detail-meta">
+      <div><dt>Stack</dt><dd>C# / .NET 10 / WPF</dd></div>
+      <div><dt>Since</dt><dd>2026</dd></div>
+      <div><dt>Status</dt><dd>開発中 / Store提出準備中</dd></div>
+    </dl>
+
+    <div class="hero-actions">
+      <a class="btn btn-line" href="/#projects">← Projects に戻る</a>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <span>© <span id="year"></span> Build Log</span>
+  <span>個人の趣味プロジェクトです</span>
+</footer>
+
+<script src="script.js?v=f5ba90f4"></script>
+<!-- Cloudflare Web Analytics -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "d1480199d24e4a1481ee43863bf0d8d2"}'></script>
+<!-- End Cloudflare Web Analytics -->
+</body>
+</html>
