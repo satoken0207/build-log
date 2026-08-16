@@ -434,6 +434,7 @@ main {
 .specimen {
   background: var(--panel);
   border: 1px solid var(--line);
+  border-top: 3px solid var(--card-accent, var(--accent));
   border-radius: var(--radius);
   padding: 24px 22px;
   display: flex;
@@ -444,6 +445,17 @@ main {
   overflow: hidden;
   transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease), transform 0.2s var(--ease);
 }
+
+/* each project gets its own accent color — the card border stripe,
+   icon badge, and hover glow all read this one token */
+.specimen-photoframe { --card-accent: #ff6f91; }
+.specimen-mihariban  { --card-accent: #2bb8b0; }
+.specimen-mvmaker    { --card-accent: #8a5cf6; }
+.specimen-photoconv  { --card-accent: #ffab2e; }
+.specimen-pccamera   { --card-accent: #33c48a; }
+.specimen-a          { --card-accent: #8890a8; }
+.specimen-b          { --card-accent: #8890a8; }
+.specimen-c          { --card-accent: #9a95b0; }
 .specimen:hover,
 .specimen:focus-within {
   border-color: var(--accent);
@@ -490,6 +502,20 @@ main {
   font-size: 0.7rem;
   color: var(--ink-dim);
   letter-spacing: 0.03em;
+}
+
+.specimen-head { display: flex; align-items: center; gap: 12px; }
+.specimen-icon {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--card-accent, var(--accent)) 18%, var(--panel));
+  border: 1px solid color-mix(in srgb, var(--card-accent, var(--accent)) 45%, transparent);
+  font-size: 1.25rem;
+  line-height: 1;
 }
 
 .stamp {
@@ -1150,6 +1176,15 @@ main {
   transform: rotate(-2deg) translateY(-6px);
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.6) inset, 4px 14px 26px rgba(40, 20, 90, 0.28);
   border-color: #a9adf0;
+}
+
+:root[data-theme="pop"] .specimen-icon {
+  border-radius: 10px;
+  transform: rotate(-4deg);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+:root[data-theme="pop"] .specimen:nth-child(even) .specimen-icon {
+  transform: rotate(4deg);
 }
 
 :root[data-theme="pop"] .stamp {
