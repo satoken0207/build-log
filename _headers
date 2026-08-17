@@ -1,0 +1,16 @@
+# Cloudflareのエッジは、このファイルが無いと全パスに
+# Cache-Control: public, max-age=0, must-revalidate を一律で付ける。
+# クエリ文字列(?v=...)はキャッシュキーに含まれないため、内容が変わっても
+# 同じパスのままだと古い版がエッジに残り続ける(2026-08-17に実際に踏んだ)。
+# そのため styles.css / script.js はファイル名そのものにハッシュを埋め込み
+# (styles.<hash>.css)、内容が変わったら別のファイル名として配る方式にした。
+# ファイル名が変わらない=中身も変わらないので、この2つだけ長期キャッシュにできる。
+
+/styles.*.css
+  Cache-Control: public, max-age=31536000, immutable
+
+/script.*.js
+  Cache-Control: public, max-age=31536000, immutable
+
+/*
+  Cache-Control: public, max-age=0, must-revalidate

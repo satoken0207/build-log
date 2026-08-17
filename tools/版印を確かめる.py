@@ -13,12 +13,25 @@
   そして**前に来たことのある人だけ**に起きるので、初めて見る人には見えない。
   作った側が自分で見ても、たいてい直っている。**いちばん見つけにくい壊れ方。**
 
-■ **なぜ中身のハッシュか。記録の番号ではないのか**
+■ **なぜファイル名にハッシュを埋めるのか。`?v=` クエリではだめなのか**
 
-  記録の番号だと、**HTML だけ直した回でも印が変わる。**
+  2026-08-17まではクエリ文字列(`styles.css?v=ハッシュ`)で運用していたが、
+  **Cloudflareのエッジキャッシュはこのクエリを見ていなかった。**
+  `?v=` を変えて再配置しても、エッジは同じパス(`/styles.css`)への
+  古いキャッシュをそのまま返し続けた。ブラウザのキャッシュは効いていたので
+  自分では気づけず、原因を切り分けるのに時間がかかった。
+
+  **ファイル名自体にハッシュを埋めれば(`styles.<ハッシュ>.css`)、
+  内容が変わるたびに別パスになる。** パスが違えばどんなキャッシュ層でも
+  取り違えようがない。古いファイル名はそのまま残しておいて構わない
+  (二度と参照されなくなるだけで、害はない)。
+
+■ **なぜ中身のハッシュか。連番ではないのか**
+
+  連番だと、**HTML だけ直した回でも版が変わる。**
   そのたびに全訪問者が CSS と JS を読み直す。崩れはしないが、毎回無駄が出る。
 
-  **中身のハッシュなら、変わった回だけ変わる。**
+  **中身のハッシュなら、変わった回だけファイル名が変わる。**
 
 ■ **なぜ道具で自動で書き換えないのか**
 
@@ -39,15 +52,21 @@ import sys
 
 ここ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# **見張る対象。** 増えたらここへ足す。
+# **見張る対象。** ファイル名のパターンと、HTML側の参照パターン。増えたらここへ足す。
 対象 = {
-    "styles.css": r'href="styles\.css(?:\?v=([0-9a-f]+))?"',
-    "script.js": r'src="script\.js(?:\?v=([0-9a-f]+))?"',
+    "styles.css": {
+        "ファイル": re.compile(r"^styles\.([0-9a-f]{8})\.css$"),
+        "参照": re.compile(r'href="styles\.([0-9a-f]{8})\.css"'),
+    },
+    "script.js": {
+        "ファイル": re.compile(r"^script\.([0-9a-f]{8})\.js$"),
+        "参照": re.compile(r'src="script\.([0-9a-f]{8})\.js"'),
+    },
 }
 
 
 def 中身の印(path: str) -> str:
-    """**中身から出す。**先頭8桁で足りる（衝突は事実上起きない）。"""
+    """**中身から出す。**先頭8桁で足りる(衝突は事実上起きない)。"""
     with open(path, "rb") as f:
         return hashlib.sha256(f.read()).hexdigest()[:8]
 
@@ -55,12 +74,33 @@ def 中身の印(path: str) -> str:
 def main() -> int:
     os.chdir(ここ)
 
+    ずれ = []
     正しい = {}
-    for name in 対象:
-        if not os.path.exists(name):
-            print(f"  **{name} が無い。**この見張りを直すこと")
+
+    for name, pat in 対象.items():
+        候補 = sorted(
+            f for f in os.listdir(ここ) if pat["ファイル"].match(f)
+        )
+        if not 候補:
+            print(f"  **{name} 形式のファイルが無い。**この見張りを直すこと")
             return 1
-        正しい[name] = 中身の印(name)
+
+        # 複数残っていて構わない(古い版は参照されなくなるだけ)。
+        # ただし「今の中身」と一致するものが少なくとも1つ必要。
+        いまの中身 = 中身の印(候補[-1]) if len(候補) == 1 else None
+        一致するもの = None
+        for f in 候補:
+            埋め込み = pat["ファイル"].match(f).group(1)
+            if 埋め込み == 中身の印(f):
+                一致するもの = f
+                break
+        if 一致するもの is None:
+            print(f"  **{name}: ファイル名のハッシュと中身が一致するものが無い。**")
+            for f in 候補:
+                print(f"    {f}  ファイル名の印 {pat['ファイル'].match(f).group(1)}"
+                      f"  中身の印 {中身の印(f)}")
+            return 1
+        正しい[name] = pat["ファイル"].match(一致するもの).group(1)
 
     pages = sorted(glob.glob("*.html"))
 
@@ -69,23 +109,23 @@ def main() -> int:
         print(f"  **ページを {len(pages)} 枚しか見ていない。**置き場所が変わった")
         return 1
 
-    ずれ = []
     見た = 0
 
     for page in pages:
         with open(page, encoding="utf-8") as f:
             html = f.read()
 
-        for name, pattern in 対象.items():
-            for m in re.finditer(pattern, html):
+        for name, pat in 対象.items():
+            マッチ = list(pat["参照"].finditer(html))
+            if not マッチ:
+                ずれ.append(f"{page}: {name} への参照が無い")
+                continue
+            for m in マッチ:
                 見た += 1
                 印 = m.group(1)
-
-                if 印 is None:
-                    ずれ.append(f"{page}: {name} に版印が無い")
-                elif 印 != 正しい[name]:
+                if 印 != 正しい[name]:
                     ずれ.append(
-                        f"{page}: {name} の版印が {印}。いまの中身は {正しい[name]}")
+                        f"{page}: {name} の参照が {印}。いまの中身は {正しい[name]}")
 
     print(f"  見たページ {len(pages)} 枚 / 読み込み {見た} 件")
     for name, v in 正しい.items():
@@ -100,7 +140,8 @@ def main() -> int:
     for s in ずれ:
         print(f"    {s}")
     print()
-    print("  **CSS か JS を直したら、全ページの版印を新しい値へ書き換えること。**")
+    print("  **CSS か JS を直したら、新しいファイル名(styles.<ハッシュ>.css)に")
+    print("  リネームして、全ページの参照を書き換えること。**")
     print("  忘れると、前に来たことのある人だけが崩れたページを見ます。")
     return 1
 

@@ -27,8 +27,11 @@ python -m http.server 8080
 - `mihariban-use.html` — 監視・検知・設定の画面ガイド
 - `mihariban-recordings.html` — 録画の再生・保存ガイド
 - `mihariban-help.html` — 対応条件・トラブルシューティング
-- `styles.css` — デザイントークン・スタイル（pop / softの2配色）
-- `script.js` — 年表示・テーマ切り替えの補助
+- `styles.<ハッシュ>.css` — デザイントークン・スタイル（pop / softの2配色）。
+  内容が変わるとファイル名ごと変わる(理由は `tools/版印を確かめる.py` 参照)
+- `script.<ハッシュ>.js` — 年表示・テーマ切り替えの補助。同上
+- `_headers` — Cloudflareへのキャッシュ指定。ハッシュ付きCSS/JSは長期キャッシュ、
+  それ以外(HTML等)は毎回再検証
 
 Projects セクションの内容（プロジェクト名・説明・リンク）は `index.html` 内の
 `.specimen` を編集して差し替えてください。
