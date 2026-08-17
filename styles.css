@@ -297,6 +297,7 @@ main {
   justify-content: center;
   gap: 26px;
   max-width: 860px;
+  margin-inline: auto;
   padding-top: 40px;
 }
 
@@ -607,6 +608,7 @@ main {
   flex-direction: column;
   gap: 18px;
   max-width: var(--measure);
+  margin-inline: auto;
 }
 .about-body p { color: var(--ink-dim); }
 
@@ -624,8 +626,8 @@ main {
 /* ---------------------------------------------------------
    Contact
    --------------------------------------------------------- */
-.contact-lead { color: var(--ink-dim); max-width: var(--measure); margin-bottom: 26px; }
-.contact-links { display: flex; gap: 16px; flex-wrap: wrap; }
+.contact-lead { color: var(--ink-dim); max-width: var(--measure); margin-bottom: 26px; margin-inline: auto; }
+.contact-links { display: flex; gap: 16px; flex-wrap: wrap; max-width: var(--measure); margin-inline: auto; }
 .contact-link {
   font-family: var(--font-display);
   font-weight: 600;
@@ -649,6 +651,7 @@ main {
    --------------------------------------------------------- */
 .detail {
   max-width: 760px;
+  margin-inline: auto;
   padding: 110px 0 100px;
   display: flex;
   flex-direction: column;
