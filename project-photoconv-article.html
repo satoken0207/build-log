@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="ja" data-theme="pop">
+<head>
+<meta charset="UTF-8">
+<script>(function(){try{if(localStorage.getItem("theme")==="soft")document.documentElement.setAttribute("data-theme","soft");}catch(e){}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python の下にある C/C++ — Build Log</title>
+<meta name="description" content="HEICをJPEGに変換するツールをPythonで書いた。その速さがどこから来たのかを実際に数えてみた記録。Python 60.2KBの下に56.0MBのネイティブコードがあった。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='10' fill='%23ff2fa0'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#b98ee8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600&family=Public+Sans:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=023912d5">
+
+<style>
+/* ---------------------------------------------------------
+   記事ページ専用。styles.css は触らずここで閉じる(全ページの
+   ?v= を巻き込まないため)。図は元記事のSVGをそのまま使い、
+   意味づけの2色 py(呼び出す側) / nv(実行する側) だけを
+   Build Log のテーマごとに差し替えている。
+   --------------------------------------------------------- */
+:root, :root[data-theme="pop"] {
+  --py-line: #4650c4;  --py-fill: #e8eaff;  --py-text: #2d2f8d;
+  --nv-line: #d4187f;  --nv-fill: #ffe4f3;  --nv-text: #9c0f5b;
+  --fig-flat: #f2f1fb;
+}
+:root[data-theme="soft"] {
+  --py-line: #2c6e8e;  --py-fill: #e0ecf2;  --py-text: #1d5570;
+  --nv-line: #b4701c;  --nv-fill: #f7e6c8;  --nv-text: #765015;
+  --fig-flat: #f0e6d0;
+}
+
+/* 図が920幅なので、この記事だけ本文カラムを広げる */
+.detail-article { max-width: 980px; }
+.detail-article .detail-body p,
+.detail-article .detail-lead { max-width: 74ch; }
+
+/* 冒頭の3つの数字 */
+.scales {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 12px;
+  margin: 8px 0 4px;
+}
+.scale {
+  background: var(--panel);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.scale .label {
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  color: var(--ink-faint);
+}
+.scale .figure {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.scale.py .figure { color: var(--py-text); }
+.scale.nv .figure { color: var(--nv-text); }
+.scale .note { font-size: 0.76rem; color: var(--ink-dim); line-height: 1.5; }
+
+/* 図 */
+.article-fig {
+  margin: 8px 0 4px;
+  padding: 20px 18px 16px;
+  background: var(--panel);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  color: var(--ink);
+  overflow-x: auto;
+}
+.article-fig svg { display: block; width: 100%; min-width: 640px; height: auto; }
+.article-fig figcaption {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  font-size: 0.84rem;
+  line-height: 1.75;
+  color: var(--ink-dim);
+  min-width: 640px;
+}
+.article-fig figcaption b { color: var(--ink); }
+
+.s-py   { fill: var(--py-fill); stroke: var(--py-line); }
+.s-nv   { fill: var(--nv-fill); stroke: var(--nv-line); }
+.s-flat { fill: var(--fig-flat); stroke: var(--line-strong); }
+.t-base { fill: currentColor; font-family: var(--font-body); }
+.t-mono { fill: currentColor; font-family: var(--font-display); }
+.t-py   { fill: var(--py-text); }
+.t-nv   { fill: var(--nv-text); }
+.t-soft { fill: var(--ink-dim); }
+.ln     { stroke: currentColor; fill: none; }
+.ln-nv  { stroke: var(--nv-line); fill: none; }
+.ln-py  { stroke: var(--py-line); fill: none; }
+.ln-hair{ stroke: var(--line-strong); fill: none; }
+
+/* 表 */
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.article-table-wrap { overflow-x: auto; margin: 6px 0; }
+.article-table {
+  width: 100%;
+  min-width: 560px;
+  border-collapse: collapse;
+  font-size: 0.86rem;
+  background: var(--panel);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.article-table th,
+.article-table td {
+  text-align: left;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+.article-table thead th {
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  color: var(--ink-faint);
+  text-transform: lowercase;
+  background: var(--fig-flat);
+}
+.article-table tbody tr:last-child td { border-bottom: none; }
+.article-table td:first-child { color: var(--ink); font-weight: 700; white-space: nowrap; }
+.article-table td { color: var(--ink-dim); }
+.article-table td.layer {
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.article-table td.layer.nv { color: var(--nv-text); }
+.article-table td.layer.py { color: var(--py-text); }
+
+/* 補足ブロック */
+.article-aside {
+  border-left: 3px solid var(--nv-line);
+  padding: 2px 0 2px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.article-aside p { color: var(--ink-dim); }
+
+.article-endnote {
+  margin-top: 6px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+  line-height: 1.75;
+}
+
+@media (max-width: 860px) {
+  .article-fig { padding: 14px 12px 12px; }
+  .scale { padding: 13px 15px; }
+  .scale .figure { font-size: 1.3rem; }
+}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">本文へスキップ</a>
+<div class="ambient" aria-hidden="true"></div>
+<div class="scan-overlay" aria-hidden="true"></div>
+
+<aside class="rail">
+  <a class="rail-mark" href="/">
+    <span class="rail-mark-line">BUILD</span>
+    <span class="rail-mark-line">LOG</span>
+  </a>
+
+  <nav class="rail-nav" aria-label="ナビゲーション">
+    <a href="project-photoconv"><span class="tab-label">back</span></a>
+  </nav>
+
+  <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false">
+    <span class="theme-toggle-track" aria-hidden="true"><span class="theme-toggle-thumb"></span></span>
+    <span class="theme-toggle-label" id="themeToggleLabel">pop</span>
+  </button>
+
+  <div class="rail-foot">
+    <span>status: online</span>
+  </div>
+</aside>
+
+<main id="main">
+  <article class="detail detail-article">
+    <p class="detail-breadcrumb"><a href="/#projects">Projects</a> / <a href="project-photoconv">写真変換</a> / 実測レポート</p>
+
+    <div class="detail-top">
+      <span class="specimen-tag">Python · 実測レポート</span>
+    </div>
+
+    <h1>Python の下にある C/C++</h1>
+    <p class="detail-lead">
+      HEIC を JPEG に変換するツールを Python で書いた。速かった。
+      では、その速さはどこから来たのか——実際に数えてみた記録。
+    </p>
+
+    <div class="scales">
+      <div class="scale py">
+        <span class="label">私が書いた Python</span>
+        <span class="figure">60.2 KB</span>
+        <span class="note">1,173 行(エンジン 431 / GUI 574 / CLI 168)</span>
+      </div>
+      <div class="scale nv">
+        <span class="label">その下のネイティブコード</span>
+        <span class="figure">56.0 MB</span>
+        <span class="note">21 個のコンパイル済みバイナリ(C / C++)</span>
+      </div>
+      <div class="scale">
+        <span class="label">比</span>
+        <span class="figure">約 950 倍</span>
+        <span class="note">重い処理はすべて下の層で起きている</span>
+      </div>
+    </div>
+
+    <div class="detail-body">
+
+      <h2>図1：写真 1 枚が変換されるまでの断面</h2>
+      <p>
+        <code>img.save()</code> という 1 行が、Python とネイティブコードの境界をまたぐ。
+        帯の厚みは、その層が担っている実際の重さにおおよそ対応させてある。
+      </p>
+
+      <figure class="article-fig">
+        <svg viewBox="0 0 920 560" role="img"
+             aria-label="写真1枚の変換処理の層構造。上部の薄いPython層から img.save() の呼び出しが境界線を越え、その下の厚いネイティブ層(PIL/_imaging、libheif、libde265、libx265)とCPUのSIMD命令で実際の処理が行われることを示す断面図。">
+          <defs>
+            <marker id="ar-nv" viewBox="0 0 10 10" refX="9" refY="5"
+                    markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--nv-line)"/>
+            </marker>
+          </defs>
+
+          <!-- 1. あなたのコード -->
+          <rect class="s-py" x="120" y="46" width="620" height="52" rx="2" stroke-width="1.5"/>
+          <text class="t-base t-py" x="140" y="70" font-size="14" font-weight="700">あなたが書いたコード</text>
+          <text class="t-mono t-soft" x="140" y="88" font-size="11.5">gui.py ・ convert.py ・ converter.py</text>
+          <text class="t-mono t-py" x="720" y="78" font-size="12.5" text-anchor="end" font-weight="700">1,173 行 / 60.2 KB</text>
+
+          <!-- 2. Pillow の Python API -->
+          <rect class="s-py" x="120" y="106" width="620" height="34" rx="2" stroke-width="1.5"/>
+          <text class="t-base t-py" x="140" y="128" font-size="13">Pillow の Python API</text>
+          <text class="t-mono t-soft" x="720" y="128" font-size="11.5" text-anchor="end">Image.open() / img.save()</text>
+
+          <!-- 境界線 -->
+          <line class="ln-nv" x1="40" y1="160" x2="900" y2="160" stroke-width="2" stroke-dasharray="7 4"/>
+          <text class="t-mono t-nv" x="900" y="152" font-size="12" text-anchor="end" font-weight="700">ここから下が C / C++</text>
+
+          <!-- 呼び出し矢印: 境界をまたぐ -->
+          <line class="ln-nv" x1="240" y1="142" x2="240" y2="178" stroke-width="1.8" marker-end="url(#ar-nv)"/>
+          <text class="t-mono t-nv" x="256" y="176" font-size="11.5">img.save() の 1 行がこの線を越える</text>
+
+          <!-- 3. Pillow のネイティブ拡張 -->
+          <rect class="s-nv" x="120" y="182" width="620" height="86" rx="2" stroke-width="1.5"/>
+          <text class="t-base t-nv" x="140" y="208" font-size="14" font-weight="700">Pillow のネイティブ拡張</text>
+          <text class="t-mono t-soft" x="140" y="230" font-size="11.5">_imaging.pyd — 画素処理・リサイズ(Lanczos)</text>
+          <text class="t-mono t-soft" x="140" y="250" font-size="11.5">_avif.pyd ・ _imagingft.pyd</text>
+          <text class="t-mono t-nv" x="720" y="230" font-size="12" text-anchor="end" font-weight="700">12.1 MB</text>
+
+          <!-- 4. コーデック本体 -->
+          <rect class="s-nv" x="120" y="278" width="620" height="126" rx="2" stroke-width="1.5"/>
+          <text class="t-base t-nv" x="140" y="304" font-size="14" font-weight="700">コーデック本体</text>
+          <text class="t-mono t-soft" x="140" y="326" font-size="11.5">libheif.dll — HEIC コンテナの解釈</text>
+          <text class="t-mono t-soft" x="140" y="346" font-size="11.5">libde265.dll — HEVC のデコード(写真を開く)</text>
+          <text class="t-mono t-soft" x="140" y="366" font-size="11.5">libx265.dll — HEVC のエンコード(写真を書く)</text>
+          <text class="t-mono t-soft" x="140" y="386" font-size="11.5">libstdc++-6.dll — C++ 標準ライブラリ</text>
+          <text class="t-mono t-nv" x="720" y="326" font-size="12" text-anchor="end" font-weight="700">27.0 MB</text>
+          <text class="t-mono t-soft" x="720" y="346" font-size="11" text-anchor="end">うち libx265 が 21.5 MB</text>
+
+          <!-- 5. CPU -->
+          <rect class="s-flat" x="120" y="414" width="620" height="46" rx="2" stroke-width="1.5"/>
+          <text class="t-base" x="140" y="437" font-size="13" font-weight="700">CPU</text>
+          <text class="t-mono t-soft" x="140" y="453" font-size="11.5">SIMD 命令(手書きアセンブラを含む)</text>
+
+          <!-- 右のブラケット: 時間の所在 -->
+          <path class="ln-nv" d="M 762 182 L 776 182 L 776 460 L 762 460" stroke-width="1.6"/>
+          <text class="t-mono t-nv" x="792" y="308" font-size="12.5" font-weight="700">1.6 秒の</text>
+          <text class="t-mono t-nv" x="792" y="326" font-size="12.5" font-weight="700">ほぼ全部が</text>
+          <text class="t-mono t-nv" x="792" y="344" font-size="12.5" font-weight="700">この範囲</text>
+
+          <!-- 左のブラケット: それぞれの層の役割 -->
+          <path class="ln-py" d="M 114 46 L 104 46 L 104 140 L 114 140" stroke-width="1.6"/>
+          <text class="t-mono t-py" x="94" y="97" font-size="11.5" text-anchor="end" font-weight="700">呼び出す側</text>
+          <path class="ln-nv" d="M 114 182 L 104 182 L 104 460 L 114 460" stroke-width="1.6"/>
+          <text class="t-mono t-nv" x="94" y="325" font-size="11.5" text-anchor="end" font-weight="700">実行する側</text>
+
+          <!-- 実測メモ -->
+          <line class="ln-hair" x1="40" y1="496" x2="900" y2="496" stroke-width="1"/>
+          <text class="t-mono t-soft" x="40" y="522" font-size="11.5">実測：iPhone の 48MP 写真(5712 × 4284)3 枚を JPEG へ変換 — 1.6 秒</text>
+          <text class="t-mono t-soft" x="40" y="542" font-size="11.5">環境：Intel i5-10500T / RAM 11.8 GB / GPU なし</text>
+        </svg>
+        <figcaption>
+          <b>Python が速かったのではなく、Python は 56 MB の C/C++ に仕事を渡していた。</b>
+          上の 2 層が私の書いたコードと Pillow の入口で、ここは呼び出しを組み立てているだけ。
+          破線から下が実際に画素を触っている層で、1.6 秒のほとんどはそこで過ごされている。
+          <code>pip install pillow-heif</code> の一行が持ってきていたのは、この下側の帯そのもの。
+        </figcaption>
+      </figure>
+
+      <h2>図2：ツール自体の構成</h2>
+      <p>
+        GUI とコマンドラインで同じ変換処理を二重に書かないよう、エンジンを 1 つに寄せてある。
+        並列化するときに出力先の名前を取り合う問題があり、そこだけ排他制御を挟んでいる。
+      </p>
+
+      <figure class="article-fig">
+        <svg viewBox="0 0 920 440" role="img"
+             aria-label="写真変換ツールの構成図。GUIとコマンドラインの2つの入口が共通のエンジンconverter.pyに設定を渡し、エンジンがスレッドプールで並列変換し、出力先名を排他制御で確保してからディスクに書き込む流れを示す。">
+          <defs>
+            <marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5"
+                    markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"/>
+            </marker>
+            <marker id="ar2-nv" viewBox="0 0 10 10" refX="9" refY="5"
+                    markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--nv-line)"/>
+            </marker>
+          </defs>
+
+          <!-- 入口 2 つ -->
+          <text class="t-mono t-soft" x="40" y="30" font-size="11" letter-spacing="1.6">入口</text>
+
+          <rect class="s-flat" x="120" y="44" width="270" height="62" rx="2" stroke-width="1.5"/>
+          <text class="t-base" x="140" y="68" font-size="13.5" font-weight="700">GUI</text>
+          <text class="t-mono t-soft" x="140" y="88" font-size="11.5">写真変換.bat → gui.py(574 行)</text>
+
+          <rect class="s-flat" x="410" y="44" width="270" height="62" rx="2" stroke-width="1.5"/>
+          <text class="t-base" x="430" y="68" font-size="13.5" font-weight="700">コマンドライン</text>
+          <text class="t-mono t-soft" x="430" y="88" font-size="11.5">convert.py(168 行)</text>
+
+          <!-- 合流矢印 -->
+          <path class="ln" d="M 255 106 L 255 132 L 400 132 L 400 152" stroke-width="1.5" marker-end="url(#ar2)"/>
+          <path class="ln" d="M 545 106 L 545 132 L 400 132" stroke-width="1.5"/>
+          <text class="t-mono t-soft" x="412" y="128" font-size="11">設定を Options に詰めて渡す</text>
+
+          <!-- エンジン -->
+          <text class="t-mono t-soft" x="40" y="180" font-size="11" letter-spacing="1.6">エンジン</text>
+          <rect class="s-py" x="120" y="152" width="560" height="66" rx="2" stroke-width="1.5"/>
+          <text class="t-base t-py" x="140" y="177" font-size="13.5" font-weight="700">converter.py(431 行)</text>
+          <text class="t-mono t-soft" x="140" y="197" font-size="11.5">向き補正 → リサイズ → 透過合成 → 保存</text>
+          <text class="t-mono t-py" x="660" y="188" font-size="11.5" text-anchor="end">GUI と CLI で共通</text>
+
+          <!-- 並列 -->
+          <line class="ln" x1="400" y1="218" x2="400" y2="252" stroke-width="1.5" marker-end="url(#ar2)"/>
+          <text class="t-mono t-soft" x="412" y="240" font-size="11">CPU 数だけ並列に投入</text>
+
+          <rect class="s-flat" x="120" y="252" width="560" height="58" rx="2" stroke-width="1.5"/>
+          <text class="t-base" x="140" y="276" font-size="13" font-weight="700">スレッドプール</text>
+          <text class="t-mono t-soft" x="140" y="295" font-size="11.5">convert_one × N 並列(1 件の失敗で全体を止めない)</text>
+
+          <!-- レジストリ -->
+          <line class="ln-nv" x1="400" y1="310" x2="400" y2="342" stroke-width="1.8" marker-end="url(#ar2-nv)"/>
+          <text class="t-mono t-nv" x="412" y="330" font-size="11" font-weight="700">書く前に出力名を確保</text>
+
+          <rect class="s-nv" x="120" y="342" width="560" height="58" rx="2" stroke-width="1.5"/>
+          <text class="t-base t-nv" x="140" y="366" font-size="13" font-weight="700">DestinationRegistry(排他制御)</text>
+          <text class="t-mono t-soft" x="140" y="385" font-size="11.5">同名が重なったら 写真.jpg → 写真_1.jpg と退避させる</text>
+
+          <!-- ディスク -->
+          <line class="ln" x1="700" y1="371" x2="752" y2="371" stroke-width="1.5" marker-end="url(#ar2)"/>
+          <rect class="s-flat" x="762" y="342" width="118" height="58" rx="2" stroke-width="1.5"/>
+          <text class="t-base" x="821" y="368" font-size="13" font-weight="700" text-anchor="middle">ディスク</text>
+          <text class="t-mono t-soft" x="821" y="386" font-size="11" text-anchor="middle">上書きしない</text>
+        </svg>
+        <figcaption>
+          <b>強調してある段は、レビューで見つかった実際の不具合の対策。</b>
+          別フォルダの同名写真を 1 つの出力先へまとめると、複数スレッドが「まだ無い」と同時に判断して
+          同じ名前を選び、先に書いた写真が黙って上書きされていた。
+          再現テストでは <b>「12 件成功」と表示されながら 4 枚しか残らなかった</b>。
+          名前をロック下で確保する方式に変え、いまは 12 枚すべてが残る。
+        </figcaption>
+      </figure>
+
+      <h2>どの要件が、どの層を要求するか</h2>
+      <p>
+        「C++ でないと駄目」なのは、言語の速さではなく満たすべき制約で決まる。
+        逆に言えば、この表のどれにも当てはまらない仕事に C++ を選ぶ理由は薄い。
+      </p>
+
+      <div class="article-table-wrap">
+        <table class="article-table">
+          <caption class="visually-hidden">制約ごとに必要となる実装層の対応表</caption>
+          <thead>
+            <tr><th scope="col">制約</th><th scope="col">具体例</th><th scope="col">必要な層</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>締め切りが絶対</td>
+              <td>音声処理(数 ms でバッファを埋める)、ゲームの 1 フレーム、車載制御</td>
+              <td class="layer nv">ネイティブ</td>
+            </tr>
+            <tr>
+              <td>実行環境が極小</td>
+              <td>ファームウェア、RAM が KB 単位の組み込み機器</td>
+              <td class="layer nv">ネイティブ</td>
+            </tr>
+            <tr>
+              <td>規模で効いてくる</td>
+              <td>データセンターの CPU 数 %、モバイルの電池</td>
+              <td class="layer nv">ネイティブ</td>
+            </tr>
+            <tr>
+              <td>他言語から呼ばれる</td>
+              <td>Python / C# / Java / Go すべてから使われるライブラリ</td>
+              <td class="layer nv">ネイティブ</td>
+            </tr>
+            <tr>
+              <td>土台そのもの</td>
+              <td>OS、ブラウザ、DB、ffmpeg、そして Python 処理系自身</td>
+              <td class="layer nv">ネイティブ</td>
+            </tr>
+            <tr>
+              <td>上のどれでもない</td>
+              <td>業務ツール、写真処理、自動化、Web、データ分析</td>
+              <td class="layer py">Python でよい</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>補足</h2>
+      <div class="article-aside">
+        <p>
+          ネイティブ層の新規開発では、いま <b>Rust</b> が C++ の領域に入ってきている。
+          Linux カーネル、Android、Windows、Chrome が新しい部分を Rust で書き始めた。
+          C++ が今も巨大なのは技術的優位というより、<b>40 年分の既存資産がそこにあるから</b>で、
+          ゲームエンジン・CAD・DAW・金融インフラは今後も C++ のまま動き続ける。
+        </p>
+        <p>
+          逆説的なのは AI で、PyTorch を触るのは Python でも、GPU を回しているのは CUDA C++ である。
+          ローカル LLM の定番は名前からして <code>llama.cpp</code> だ。
+          Python の需要が増えた分、その下を支える C++ の需要も増えた。
+        </p>
+      </div>
+
+      <h2>境界がどこにあるかを知っておく</h2>
+      <p>
+        C++ を書けるようになる必要はない。ただ、<b>自分のコードのどこから下が C/C++ なのか</b>が
+        見えていると、性能が出ないときに切り分けができる。
+      </p>
+      <p>
+        「Python が遅い」のか、「Python のループで画素を 1 つずつ回してしまっている」のか。
+        だいたいは後者で、境界より上に処理を書いてしまったことが原因になる。
+        今回のツールが速かったのは、重い処理をすべて境界の下へ渡せていたからにすぎない。
+      </p>
+
+      <p class="article-endnote">
+        数値はすべて実環境で計測。ネイティブバイナリのサイズは <code>.venv/Lib/site-packages</code> 配下の
+        <code>.pyd</code> / <code>.dll</code> 21 ファイルの合計。変換時間は実写 HEIC 3 枚による実測値。
+      </p>
+
+    </div>
+
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="project-photoconv">写真変換ツールのページへ</a>
+      <a class="btn btn-line" href="/#projects">← Projects に戻る</a>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <span>© <span id="year"></span> Build Log</span>
+  <span>個人の趣味プロジェクトです</span>
+</footer>
+
+<script src="script.js?v=e176bde6"></script>
+<!-- Cloudflare Web Analytics -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "d1480199d24e4a1481ee43863bf0d8d2"}'></script>
+<!-- End Cloudflare Web Analytics -->
+</body>
+</html>
