@@ -20,13 +20,22 @@ function applyTheme(theme) {
   document.dispatchEvent(new CustomEvent("themechange", { detail: { theme } }));
 }
 
-const storedTheme = localStorage.getItem("theme");
+let storedTheme = null;
+try {
+  storedTheme = localStorage.getItem("theme");
+} catch (e) {
+  // storage blocked (private mode / policy) — fall back to default theme
+}
 applyTheme(storedTheme === "soft" ? "soft" : "pop");
 
 if (toggle) {
   toggle.addEventListener("click", () => {
     const next = root.getAttribute("data-theme") === "soft" ? "pop" : "soft";
-    localStorage.setItem("theme", next);
+    try {
+      localStorage.setItem("theme", next);
+    } catch (e) {
+      // can't persist — theme still applies for this page view
+    }
     applyTheme(next);
   });
 }
