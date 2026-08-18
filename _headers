@@ -1,16 +1,19 @@
-# Cloudflareのエッジは、このファイルが無いと全パスに
-# Cache-Control: public, max-age=0, must-revalidate を一律で付ける。
-# クエリ文字列(?v=...)はキャッシュキーに含まれないため、内容が変わっても
-# 同じパスのままだと古い版がエッジに残り続ける(2026-08-17に実際に踏んだ)。
-# そのため styles.css / script.js はファイル名そのものにハッシュを埋め込み
-# (styles.<hash>.css)、内容が変わったら別のファイル名として配る方式にした。
-# ファイル名が変わらない=中身も変わらないので、この2つだけ長期キャッシュにできる。
+# Cloudflareのエッジは、このファイルが無くても全パスに
+# Cache-Control: public, max-age=0, must-revalidate を既定で付ける
+# (HTML等はこれで正しい)。クエリ文字列(?v=...)はキャッシュキーに含まれないため、
+# 内容が変わっても同じパスのままだと古い版がエッジに残り続ける
+# (2026-08-17に実際に踏んだ)。そのため styles.css / script.js はファイル名
+# そのものにハッシュを埋め込み(styles.<hash>.css)、内容が変わったら別の
+# ファイル名として配る方式にした。ファイル名が変わらない=中身も変わらないので、
+# この2つだけ明示的に長期キャッシュへ切り替える。
+#
+# 注意: 他のパスへの既定ルールをここで重ねて書かない。Cloudflareは複数の
+# ルールが一致すると Cache-Control を上書きではなく追記するため、
+# 「/*」のような全般ルールを足すと、この2つのヘッダーが二重に付いてしまう
+# (2026-08-17に実際に確認: "max-age=0, ..., max-age=31536000, ..." と連結された)。
 
 /styles.*.css
   Cache-Control: public, max-age=31536000, immutable
 
 /script.*.js
   Cache-Control: public, max-age=31536000, immutable
-
-/*
-  Cache-Control: public, max-age=0, must-revalidate
