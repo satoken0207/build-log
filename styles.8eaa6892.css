@@ -10,7 +10,8 @@
   --paper: #ffffff;
   --ink:   #14171f;
   --dim:   #5b616f;
-  --faint: #8891a1;
+  --faint: #667081;  /* 元は#8891a1(白地3.18:1で4.5:1未達、クロ2の実測)。パンくず・footer・
+                         section-labelなど文字として読む箇所が22個あったため暗くした */
   --line:  #ececf1;
   --wash:  #f7f7fa;
 
