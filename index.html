@@ -1,170 +1,135 @@
 <!doctype html>
-<html lang="ja" data-theme="pop">
+<html lang="ja">
 <head>
 <meta charset="UTF-8">
-<script>(function(){try{if(localStorage.getItem("theme")==="soft")document.documentElement.setAttribute("data-theme","soft");}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Build Log — apps &amp; small experiments</title>
 <meta name="description" content="趣味で作っているアプリと実験の記録。個人開発のビルドログ。">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='10' fill='%23ff2fa0'/%3E%3C/svg%3E">
-<meta name="theme-color" content="#b98ee8">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600&family=Public+Sans:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.77ab2757.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='%23f0518c'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#ffffff">
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
 <a class="skip-link" href="#main">本文へスキップ</a>
-<div class="ambient" aria-hidden="true"></div>
-<div class="scan-overlay" aria-hidden="true"></div>
 
-<aside class="rail">
-  <a class="rail-mark" href="#top">
-    <span class="rail-mark-line">BUILD</span>
-    <span class="rail-mark-line">LOG</span>
-  </a>
-
-  <nav class="rail-nav" aria-label="セクション">
-    <a href="#projects"><span class="tab-label">projects</span></a>
-    <a href="#about"><span class="tab-label">about</span></a>
-    <a href="#contact"><span class="tab-label">contact</span></a>
-  </nav>
-
-  <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false">
-    <span class="theme-toggle-track" aria-hidden="true"><span class="theme-toggle-thumb"></span></span>
-    <span class="theme-toggle-label" id="themeToggleLabel">pop</span>
-  </button>
-
-  <div class="rail-foot">
-    <span>status: online</span>
+<nav class="nav">
+  <a class="brand" href="#top">Build Log</a>
+  <div class="nav-links">
+    <a href="#projects">Projects</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
   </div>
-</aside>
+</nav>
 
-<main id="main">
-
-  <section id="top" class="hero">
-    <p class="entry-stamp">個人開発ログ<span class="cursor" aria-hidden="true"></span></p>
-    <h1 class="hero-title">作って、動かして、<br><span class="hl">気に入ったもの</span>だけ残す。</h1>
-    <p class="hero-sub">
-      仕事の延長ではなく、興味の向いた方へ作っているアプリと実験の置き場所。
-      壊れているものも、直したものも、そのまま並んでいます。
-    </p>
-    <canvas class="scope" id="scope" aria-hidden="true"></canvas>
-    <div class="hero-actions">
+<header class="hero" id="top">
+  <div class="hero-body">
+    <span class="eyebrow">個人開発ログ</span>
+    <h1>作って、動かして、<br><span class="hl">気に入ったもの</span>だけ残す。</h1>
+    <p class="lead">仕事の延長ではなく、興味の向いた方へ作っているアプリと実験の置き場所。数字は丸めません。</p>
+    <div class="actions">
       <a class="btn btn-primary" href="#projects">Projects を見る</a>
       <a class="btn btn-line" href="#contact">Contact</a>
     </div>
-  </section>
+  </div>
 
-  <section id="projects" class="section">
-    <header class="section-head">
-      <span class="tab-no">01</span>
-      <div class="section-head-body">
-        <h2>Projects</h2>
-        <span class="section-rule" aria-hidden="true"></span>
-      </div>
-    </header>
+  <div class="stickers" aria-hidden="true">
+    <div class="sticker st1"><svg viewBox="0 0 48 48" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="6" width="32" height="32" rx="4"/><path d="M8 30 L18 20 L26 28 L32 22 L40 30"/><circle cx="16" cy="14" r="3"/></svg></div>
+    <div class="sticker st2"><svg viewBox="0 0 48 48" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="16" width="36" height="24" rx="4"/><path d="M16 16 L20 10 L28 10 L32 16"/><circle cx="24" cy="28" r="7"/></svg></div>
+    <div class="sticker st3"><svg viewBox="0 0 48 48" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M24 6 L28 18 L40 18 L30 26 L34 38 L24 30 L14 38 L18 26 L8 18 L20 18 Z"/></svg></div>
+    <div class="sticker st4"><svg viewBox="0 0 48 48" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="9" width="22" height="22" rx="4"/><rect x="21" y="17" width="22" height="22" rx="4" fill="none"/><path d="M11 20 L11 15 L16 15 M37 28 L37 33 L32 33"/></svg></div>
+    <div class="sticker st5"><svg viewBox="0 0 48 48" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="16" width="36" height="24" rx="4"/><path d="M16 16 L20 10 L28 10 L32 16"/><circle cx="24" cy="28" r="7"/></svg></div>
+  </div>
+</header>
 
-    <div class="specimens">
+<main id="main">
+  <section class="section">
+    <div class="layout">
+      <section id="projects">
+        <p class="section-label">Projects</p>
+        <div class="specimens">
 
-      <article class="specimen specimen-photoframe">
-        <div class="specimen-top">
-          <span class="specimen-tag">Android · Kotlin</span>
-          <span class="stamp stamp-wip">WIP</span>
-        </div>
-        <div class="specimen-head">
-          <span class="specimen-icon" aria-hidden="true">🖼️</span>
-          <h3>フォトフレーム</h3>
-        </div>
-        <p>スマホを写真立てにするアプリ。選んだ写真を全画面で映し、充電中は自動で始まる。</p>
-        <dl class="specimen-meta">
-          <div><dt>Stack</dt><dd>Kotlin / Compose</dd></div>
-          <div><dt>Since</dt><dd>2026</dd></div>
-        </dl>
-        <a class="specimen-link" href="project-photoframe">詳細を見る <span aria-hidden="true">→</span></a>
-      </article>
+          <article class="specimen specimen-photoframe">
+            <div class="specimen-top">
+              <div class="specimen-icon"><svg viewBox="0 0 48 48" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="6" width="32" height="32" rx="4"/><path d="M8 30 L18 20 L26 28 L32 22 L40 30"/><circle cx="16" cy="14" r="3"/></svg></div>
+              <span class="tag-status is-wip">WIP</span>
+            </div>
+            <h3>フォトフレーム</h3>
+            <p>スマホを写真立てにするアプリ。選んだ写真を全画面で映し、充電中は自動で始まる。</p>
+            <div class="specimen-meta"><span>Kotlin / Compose</span><span>since 2026</span></div>
+            <a class="specimen-link" href="project-photoframe">詳細を見る →</a>
+          </article>
 
-      <article class="specimen specimen-mihariban">
-        <div class="specimen-top">
-          <span class="specimen-tag">Windows · C#/.NET</span>
-          <span class="stamp stamp-wip">WIP</span>
-        </div>
-        <div class="specimen-head">
-          <span class="specimen-icon" aria-hidden="true">👁️</span>
-          <h3>見張り番</h3>
-        </div>
-        <p>ONVIF対応カメラを見つけ、動きがあった場面を記録するWindowsアプリ。全主要画面つきのオンライン説明書を公開中。</p>
-        <dl class="specimen-meta">
-          <div><dt>Stack</dt><dd>C# / WPF (.NET 10)</dd></div>
-          <div><dt>Since</dt><dd>2026</dd></div>
-        </dl>
-        <a class="specimen-link" href="project-mihariban">詳細を見る <span aria-hidden="true">→</span></a>
-      </article>
+          <article class="specimen specimen-mihariban">
+            <div class="specimen-top">
+              <div class="specimen-icon"><svg viewBox="0 0 48 48" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="16" width="36" height="24" rx="4"/><path d="M16 16 L20 10 L28 10 L32 16"/><circle cx="24" cy="28" r="7"/></svg></div>
+              <span class="tag-status is-wip">WIP</span>
+            </div>
+            <h3>見張り番</h3>
+            <p>ONVIF対応カメラを見つけ、動きがあった場面を記録するWindowsアプリ。全主要画面つきのオンライン説明書を公開中。</p>
+            <div class="specimen-meta"><span>C# / WPF (.NET 10)</span><span>since 2026</span></div>
+            <a class="specimen-link" href="project-mihariban">詳細を見る →</a>
+          </article>
 
-      <article class="specimen specimen-mvmaker">
-        <div class="specimen-top">
-          <span class="specimen-tag">Python · Desktop</span>
-          <span class="stamp stamp-live">LIVE</span>
-        </div>
-        <div class="specimen-head">
-          <span class="specimen-icon" aria-hidden="true">🎬</span>
-          <h3>MV Maker</h3>
-        </div>
-        <p>音源と歌詞から、ビートに同期した字幕付き歌詞動画を自動生成するツール。</p>
-        <dl class="specimen-meta">
-          <div><dt>Stack</dt><dd>Python / Whisper / librosa</dd></div>
-          <div><dt>Since</dt><dd>2026</dd></div>
-        </dl>
-        <a class="specimen-link" href="project-mvmaker">詳細を見る <span aria-hidden="true">→</span></a>
-      </article>
+          <article class="specimen specimen-mvmaker">
+            <div class="specimen-top">
+              <div class="specimen-icon"><svg viewBox="0 0 48 48" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M24 6 L28 18 L40 18 L30 26 L34 38 L24 30 L14 38 L18 26 L8 18 L20 18 Z"/></svg></div>
+              <span class="tag-status is-live">LIVE</span>
+            </div>
+            <h3>MV Maker</h3>
+            <p>音源と歌詞から、ビートに同期した字幕付き歌詞動画を自動生成するツール。</p>
+            <div class="specimen-meta"><span>Python / Whisper / librosa</span><span>since 2026</span></div>
+            <a class="specimen-link" href="project-mvmaker">詳細を見る →</a>
+          </article>
 
-      <article class="specimen specimen-photoconv">
-        <div class="specimen-top">
-          <span class="specimen-tag">Python · Desktop</span>
-          <span class="stamp stamp-live">LIVE</span>
-        </div>
-        <div class="specimen-head">
-          <span class="specimen-icon" aria-hidden="true">🔁</span>
-          <h3>写真変換</h3>
-        </div>
-        <p>iPhoneのHEICも一括変換。EXIFや向きを保ったままJPEG/PNG/WebPなどに変換するツール。</p>
-        <dl class="specimen-meta">
-          <div><dt>Stack</dt><dd>Python / Pillow</dd></div>
-          <div><dt>Since</dt><dd>2026</dd></div>
-        </dl>
-        <a class="specimen-link" href="project-photoconv">詳細を見る <span aria-hidden="true">→</span></a>
-      </article>
+          <article class="specimen specimen-photoconv">
+            <div class="specimen-top">
+              <div class="specimen-icon"><svg viewBox="0 0 48 48" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="9" width="22" height="22" rx="4"/><rect x="21" y="17" width="22" height="22" rx="4" fill="none"/><path d="M11 20 L11 15 L16 15 M37 28 L37 33 L32 33"/></svg></div>
+              <span class="tag-status is-live">LIVE</span>
+            </div>
+            <h3>写真変換</h3>
+            <p>iPhoneのHEICも一括変換。EXIFや向きを保ったままJPEG/PNG/WebPなどに変換するツール。</p>
+            <div class="specimen-meta"><span>Python / Pillow</span><span>since 2026</span></div>
+            <a class="specimen-link" href="project-photoconv">詳細を見る →</a>
+          </article>
 
-      <article class="specimen specimen-pccamera">
-        <div class="specimen-top">
-          <span class="specimen-tag">Windows · C#/.NET</span>
-          <span class="stamp stamp-wip">WIP</span>
-        </div>
-        <div class="specimen-head">
-          <span class="specimen-icon" aria-hidden="true">🎥</span>
-          <h3>PC Camera Recorder</h3>
-        </div>
-        <p>PCのカメラで動きを検知し、その瞬間だけをPC内に自動録画するWindowsアプリ。</p>
-        <dl class="specimen-meta">
-          <div><dt>Stack</dt><dd>C# / .NET 10 / WPF</dd></div>
-          <div><dt>Since</dt><dd>2026</dd></div>
-        </dl>
-        <a class="specimen-link" href="project-pccamera">詳細を見る <span aria-hidden="true">→</span></a>
-      </article>
+          <article class="specimen specimen-pccamera">
+            <div class="specimen-top">
+              <div class="specimen-icon"><svg viewBox="0 0 48 48" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="16" width="36" height="24" rx="4"/><path d="M16 16 L20 10 L28 10 L32 16"/><circle cx="24" cy="28" r="7"/></svg></div>
+              <span class="tag-status is-wip">WIP</span>
+            </div>
+            <h3>PC Camera Recorder</h3>
+            <p>PCのカメラで動きを検知し、その瞬間だけをPC内に自動録画するWindowsアプリ。</p>
+            <div class="specimen-meta"><span>C# / .NET 10 / WPF</span><span>since 2026</span></div>
+            <a class="specimen-link" href="project-pccamera">詳細を見る →</a>
+          </article>
 
+        </div>
+      </section>
+
+      <aside>
+        <div class="side-card">
+          <p class="side-title">実測値トップ5</p>
+          <ol class="fact-list">
+            <li>見張り番 — 自動試験 1,278件 / 失敗 0</li>
+            <li>見張り番 — 連続動作 19時間17分 / コマ落ち 0</li>
+            <li>写真変換 — 48MP写真3枚を1.6秒で変換</li>
+            <li>写真変換 — Python 60.2KB→ネイティブ層56.0MB(約950倍)</li>
+            <li>PC Camera Recorder — 29.85fps / フレーム欠落 0</li>
+          </ol>
+        </div>
+        <div class="side-card">
+          <p class="side-title">Stack</p>
+          <div class="tag-cloud">
+            <a href="#projects">Kotlin</a><a href="#projects">C# / .NET</a><a href="#projects">Python</a><a href="#projects">WPF</a><a href="#projects">Compose</a>
+          </div>
+        </div>
+      </aside>
     </div>
   </section>
 
   <section id="about" class="section">
-    <header class="section-head">
-      <span class="tab-no">02</span>
-      <div class="section-head-body">
-        <h2>About</h2>
-        <span class="section-rule" aria-hidden="true"></span>
-      </div>
-    </header>
-
+    <p class="section-label">About</p>
     <div class="about-body">
       <p>
         普段は手を動かして何かを作るのが好きです。仕事の延長ではなく、
@@ -184,20 +149,12 @@
   </section>
 
   <section id="contact" class="section">
-    <header class="section-head">
-      <span class="tab-no">03</span>
-      <div class="section-head-body">
-        <h2>Contact</h2>
-        <span class="section-rule" aria-hidden="true"></span>
-      </div>
-    </header>
-
+    <p class="section-label">Contact</p>
     <p class="contact-lead">感想・不具合報告・雑談、なんでも歓迎です。</p>
     <div class="contact-links">
       <a class="contact-link" href="mailto:sk.system.mtk@gmail.com">Mail</a>
     </div>
   </section>
-
 </main>
 
 <footer class="site-footer">
@@ -205,7 +162,7 @@
   <span>個人の趣味プロジェクトです</span>
 </footer>
 
-<script src="script.e176bde6.js"></script>
+<script src="script.js"></script>
 <!-- Cloudflare Web Analytics -->
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "d1480199d24e4a1481ee43863bf0d8d2"}'></script>
 <!-- End Cloudflare Web Analytics -->
