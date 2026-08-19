@@ -316,11 +316,13 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   border: 1px solid var(--line);
 }
 .detail-visual[aria-hidden] { display: grid; place-items: center; min-height: 220px; color: var(--faint); font-size: 0.9rem; }
-.detail-visual img, .detail-product-shot img { width: 100%; display: block; }
+/* width:100%だけだとheightがimg要素のheight属性(実寸px)のまま残り、
+   横だけ縮んで縦長に潰れる(2026-08-20、本番で発覚)。height:autoを必須で足す。 */
+.detail-visual img, .detail-product-shot img { width: 100%; height: auto; display: block; }
 .detail-product-shot figcaption, .detail-visual figcaption {
   padding: 14px 18px; font-size: 0.8rem; color: var(--faint); border-top: 1px solid var(--line);
 }
-.has-shot img { width: 100%; }
+.has-shot img { width: 100%; height: auto; }
 
 .detail-body { display: flex; flex-direction: column; gap: 18px; }
 .detail-body p { color: var(--dim); max-width: var(--measure); }
@@ -393,14 +395,14 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 
 .screen-guide { display: flex; flex-direction: column; gap: 40px; }
 .screen-shot { border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); background: var(--wash); }
-.screen-shot img { width: 100%; display: block; }
+.screen-shot img { width: 100%; height: auto; display: block; }
 .screen-key { display: flex; flex-direction: column; gap: 10px; }
 .screen-key dt { font-family: var(--mono); font-size: 0.72rem; font-weight: 800; color: var(--faint); }
 .screen-key dd { margin: 2px 0 10px; color: var(--dim); font-size: 0.9rem; }
 
 .shot-gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
 .shot-link { display: block; border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--line); }
-.shot-link img { width: 100%; display: block; }
+.shot-link img { width: 100%; height: auto; display: block; }
 @media (max-width: 560px) { .shot-gallery { grid-template-columns: 1fr; } }
 
 .table-wrap, .manual-table-wrap { overflow-x: auto; }
